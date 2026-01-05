@@ -23,7 +23,7 @@ export default function About() {
 			<div className="relative mx-auto container gap-4 px-10 grid grid-cols-1 md:grid-cols-2 mb-10">
 				<div className="flex justify-center items-start flex-col mb-5 ">
 					<div className="images relative w-full  aspect-square">
-						<div className="absolute top-28 left-10 w-[50%]  aspect-square grayscale hover:grayscale-0 transition-all ease duration-300">
+						<div className="absolute top-28 left-10 w-[50%]  aspect-square grayscale hover:grayscale-0 active:grayscale-0 transition-all ease duration-300">
 							<motion.div
 								initial={{ opacity: 0, scale: 0.5, x: 100 }}
 								whileInView={{
@@ -41,7 +41,7 @@ export default function About() {
 								/>
 							</motion.div>
 						</div>
-						<div className="absolute top-16 right-28 w-[30%]  aspect-square grayscale hover:grayscale-0 transition-all ease duration-300">
+						<div className="absolute top-16 right-28 w-[30%]  aspect-square grayscale hover:grayscale-0 active:grayscale-0 transition-all ease duration-300">
 							<motion.div
 								initial={{
 									opacity: 0,
@@ -64,7 +64,7 @@ export default function About() {
 								/>
 							</motion.div>
 						</div>
-						<div className="absolute bottom-16 right-20 w-[40%]  aspect-square grayscale hover:grayscale-0 transition-all ease duration-300">
+						<div className="absolute bottom-16 right-20 w-[40%]  aspect-square grayscale hover:grayscale-0 active:grayscale-0 transition-all ease duration-300">
 							<motion.div
 								initial={{
 									opacity: 0,
