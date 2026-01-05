@@ -183,7 +183,7 @@ This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICEN
 
 **Edwin Ronaltama Mabrur**
 
-- Website: [ronaltama.vercel.app](https://ronaltama.vercel.app)
+- Website: [ronaltama.my.id](https://ronaltama.my.id)
 - GitHub: [@ronaltama](https://github.com/ronaltama)
 - LinkedIn: [ronaltama](https://linkedin.com/in/ronaltama)
 - Email: tama.ronal@gmail.com
