@@ -5,87 +5,71 @@ import { CodepenIcon, WebhookIcon, ActivityIcon, MobileIcon } from "./icons"
 
 const skillCategories = {
 	web: {
-		title: "Web Development",
+		title: "Full Stack Development",
 		icon: CodepenIcon,
-		description: "Building modern, responsive web applications",
+		description: "Building modern, scalable web applications",
 		languages: [
-			"HTML",
-			"CSS",
+			"Golang",
+			"PHP",
 			"JavaScript",
 			"TypeScript",
-			"PHP",
 			"Python",
-			"React",
-			"NextJS",
-			"TailwindCSS",
-			"Bootstrap",
-			"NodeJS",
-			"ExpressJS",
+			"Vue.js",
 			"Laravel",
-			"Flask",
-			"Django",
-			"Firebase"
+			"Inertia.js",
+			"RESTful API",
 		],
-		tools: ["Visual Studio Code", "Git", "Github", "Figma", "Vite", "Docker", "Kubernetes", "Google Cloud", "Postman"],
+		tools: ["Git", "GitHub", "Docker", "MySQL", "PostgreSQL", "Linux", "VS Code"],
 	},
 	api: {
-		title: "REST API",
+		title: "Backend & API",
 		icon: WebhookIcon,
-		description: "Creating robust and scalable backend services",
+		description: "Creating robust backend services and APIs",
 		languages: [
-			"NodeJS",
-			"ExpressJS",
+			"Golang",
 			"PHP",
 			"Laravel",
 			"Python",
-			"FastAPI",
-			"Flask",
-			"Django",
 			"MySQL",
 			"PostgreSQL",
-			"MongoDB",
-			"Firebase",
+			"MQTT",
+			"WebSocket",
 		],
-		tools: ["Postman", "Docker", "Kubernetes", "Swagger", "Git", "Github", "Google Cloud", "IBM Cloud"],
+		tools: ["Docker", "Postman", "Git", "Linux"],
 	},
-	ai: {
-		title: "AI & Machine Learning",
+	iot: {
+		title: "IoT & Embedded Systems",
 		icon: ActivityIcon,
-		description: "Developing intelligent solutions with ML/AI",
+		description: "Smart systems and hardware-software integration",
 		languages: [
+			"C++",
 			"Python",
-			"TensorFlow",
-			"PyTorch",
-			"Scikit-learn",
-			"Pandas",
-			"NumPy",
-			"Jupyter",
-			"OpenAI API",
-			"Gemini API",
-			"LangChain",
+			"Arduino",
+			"ESP32",
+			"Raspberry Pi",
+			"MQTT",
+			"Node-RED",
 		],
 		tools: [
-			"Jupyter Notebook",
-			"Google Colab",
-			"Google Cloud AI",
-			"AWS SageMaker",
-			"IBM Watson",
+			"Arduino IDE",
+			"Lutron System",
+			"Blynk",
+			"Sensor Integration",
 		],
 	},
-	mobile: {
-		title: "Mobile Development",
+	robotics: {
+		title: "Robotics",
 		icon: MobileIcon,
-		description: "Cross-platform mobile app development",
+		description: "Control algorithms and robotic systems",
 		languages: [
-			"React Native",
-			"JavaScript",
-			"TypeScript",
-			"Dart",
-			"Flutter",
+			"C++",
+			"Python",
+			"Arduino",
+			"Control Algorithms",
 		],
 		tools: [
-			"Android Studio",
-			"React Native CLI",
+			"Arduino IDE",
+			"Robot Operating System",
 		],
 	},
 };
@@ -96,11 +80,10 @@ function SkillCard({ skill, isSelected, onClick }) {
 	return (
 		<motion.div
 			onClick={onClick}
-			className={`relative cursor-pointer group p-6 rounded-2xl backdrop-blur-lg border transition-all duration-300 ${
-				isSelected
+			className={`relative cursor-pointer group p-6 rounded-2xl backdrop-blur-lg border transition-all duration-300 ${isSelected
 					? "bg-white/20 border-black border-2 shadow-lg"
 					: "bg-white/10 border-gray-300/20 hover:bg-white/20 hover:border-gray-300/30"
-			}`}
+				}`}
 			whileHover={{
 				scale: 1.05,
 				rotateY: 5,
@@ -120,9 +103,8 @@ function SkillCard({ skill, isSelected, onClick }) {
 
 			<div className="relative z-10 flex flex-col items-center text-center space-y-4">
 				<div
-					className={`p-4 rounded-xl transition-all duration-300 ${
-						isSelected ? "bg-white/30" : "bg-white/10 group-hover:bg-white/20"
-					}`}>
+					className={`p-4 rounded-xl transition-all duration-300 ${isSelected ? "bg-white/30" : "bg-white/10 group-hover:bg-white/20"
+						}`}>
 					<Icon className="w-8 h-8 text-black" />
 				</div>
 				<div>

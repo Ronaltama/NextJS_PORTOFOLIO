@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Card from "./spotify/card";
 import { motion } from "framer-motion";
 import Me1 from "@/public/image/me1.jpg";
 import Me2 from "@/public/image/me2.jpg";
@@ -35,7 +34,7 @@ export default function About() {
 								className="w-full h-full">
 								<Image
 									src={Me1}
-									alt="Alvalens"
+									alt="Ronaltama"
 									layout="fill"
 									objectFit="cover"
 									placeholder="blur"
@@ -58,7 +57,7 @@ export default function About() {
 								className="w-full h-full">
 								<Image
 									src={Me2}
-									alt="Alvalens"
+									alt="Ronaltama"
 									layout="fill"
 									objectFit="cover"
 									placeholder="blur"
@@ -83,7 +82,7 @@ export default function About() {
 								className="w-full h-full">
 								<Image
 									src={Me3}
-									alt="Alvalens"
+									alt="Ronaltama"
 									layout="fill"
 									objectFit="cover"
 									placeholder="blur"
@@ -108,38 +107,31 @@ export default function About() {
 						type: "spring",
 					}}>
 					<h2 className="text-2xl font-bold tracking-wider mb-3">
-						Alvalen Shafelbilyunazra
+						Edwin Ronaltama Mabrur
 					</h2>
 					<p className="text-gray-600 text-justify title text-lg">
-						Hey there, I&rsquo;m Alvalen Shafelbilyunazra, a
+						Halo! Saya Edwin Ronaltama Mabrur, seorang
 						<span className="text-black font-medium">
 							{" "}
-							passionate Web Developer
+							Software Engineer
 						</span>{" "}
-						with a growing expertise in
+						dengan spesialisasi pengembangan
+						<span className="text-black font-medium"> Full Stack Web Application</span>.
+						Saya memiliki keahlian dalam JavaScript, Node.js, Express, Vue.js, Laravel,
+						dan Golang untuk membangun aplikasi web yang robust dan scalable.
+						<br />
+						<br />
+						Saat ini, saya menempuh pendidikan di{" "}
 						<span className="text-black font-medium">
-							{" "}
-							Artificial Intelligence.
+							Teknik Informatika, Universitas Sebelas Maret (UNS)
 						</span>{" "}
-						Hailing from Pasuruan, East Java, Indonesia, I&rsquo;m currently
-						pursuing my degree in{" "}
-						<span className="text-black font-medium">
-							Computer Science
-						</span>{" "}
-						at{" "}
-						<span className="text-black font-medium">
-							Universitas Negeri Malang.
-						</span>{" "}
-						My work bridges modern web technologies and intelligent systems—from
-						building responsive, scalable websites to exploring generative AI
-						and LLM-based solutions. Beyond development, I stay curious about
-						design and emerging technologies. In today&rsquo;s ever-changing
-						digital landscape, I believe being a
-						<span className="text-black font-medium"> lifelong learner</span> is
-						essential. Let&rsquo;s connect and explore the evolving intersection
-						of web and AI together!
+						sambil aktif bekerja sebagai Freelance Software Engineer. Salah satu
+						proyek yang sedang saya kerjakan adalah sistem monitoring hotel yang
+						mengintegrasikan <span className="text-black font-medium">dashboard web dengan perangkat IoT</span> untuk
+						memberikan visualisasi data real-time. Selain itu, saya juga memiliki pengalaman
+						di bidang <span className="text-black font-medium">Robotika</span> sebagai
+						pengembang algoritma kontrol.
 					</p>
-					<Card />
 				</motion.div>
 			</div>
 		</>

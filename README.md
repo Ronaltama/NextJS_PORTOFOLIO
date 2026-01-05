@@ -1,116 +1,199 @@
-# Alvalens Porto 2
+# Ronaltama Portfolio
 
-![visitor badge](https://visitor-badge.laobi.icu/badge?page_id=aleph-discord-bot.visitor-badge)
+<div align="center">
 
-This is my debut project utilizing Next.js, a portfolio website featuring four primary sections: Home, About, Projects, and Contact. The site is brought to life with animations powered by Framer Motion, enhanced page transitions with Fullpage.js, and styled using elements of Tailwind CSS. This project also read list of project data from a JSON file. It serves as a showcase of my web development skills and represents my initial foray into web development with Next.js.
+![Next.js](https://img.shields.io/badge/Next.js-15.2.8-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+**Portfolio website milik Edwin Ronaltama Mabrur**  
+Software Engineer & Full Stack Developer dengan spesialisasi Smart Systems dan IoT
 
-## Features
+[Live Demo](https://ronaltama.vercel.app) • [Documentation](DEPLOYMENT.md)
 
-* **Smooth Animation:** Smooth page scroll and scroll trigger animation.
-* **Smooth Page Transition:** Smooth page transition with prefetching feature of next js.
-* **Dynamic Data:** Read the project data from JSON file instead of directly implemented the data.
-* **Intelliticks chat widget:** Chat with owner of the web realtime.
-* **Spotify realtime widget:** Show what song youre playing in this web.
+</div>
 
-## Installation
+---
 
-1. Ensure you have [pnpm](https://pnpm.io/) installed. If not, you can install it using:
+## ✨ Features
 
-   ```shell
-   npm install -g pnpm
-   ```
-2. Clone the repository:
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Scroll-Snap Navigation** | Smooth full-page scrolling dengan CSS scroll-snap |
+| 🎨 **Framer Motion Animations** | Animasi modern dan interaktif di seluruh halaman |
+| 📱 **Fully Responsive** | Optimal di semua ukuran layar |
+| 📊 **Dynamic Project Data** | Data project dibaca dari JSON file |
+| 📈 **Vercel Analytics** | Tracking performa dan visitor |
+| ⚡ **Turbopack** | Development server yang super cepat |
 
-   ```shell
-   git clone https://github.com/Alvalens/Alvalens-porto-2-nextJs.git
-   ```
-3. Navigate to the project directory:
+---
 
-   ```shell
+## 🛠️ Tech Stack
+
+### Core
+- **[Next.js 15](https://nextjs.org/)** - React Framework dengan App Router
+- **[React 19](https://react.dev/)** - UI Library
+- **[Turbopack](https://turbo.build/pack)** - Blazing fast bundler
+
+### Styling & UI
+- **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS
+- **[Framer Motion](https://www.framer.com/motion/)** - Animation library
+- **[Font Awesome](https://fontawesome.com/)** - Icon library
+
+### Utilities
+- **[Sharp](https://sharp.pixelplumbing.com/)** - Image optimization
+- **[SWR](https://swr.vercel.app/)** - Data fetching
+- **[NProgress](https://ricostacruz.com/nprogress/)** - Progress bar
+
+---
+
+## 📁 Project Structure
+
+```
+├── app/
+│   ├── (root)/              # Home page dengan scroll-snap sections
+│   │   └── page.jsx         # Home, About preview, Projects preview, Contact
+│   ├── about/               # About page
+│   │   ├── components/      # Skills, Education, Experience
+│   │   └── page.jsx
+│   ├── projects/            # Projects page
+│   │   ├── [slug]/          # Dynamic project detail
+│   │   ├── archive/         # Archived projects
+│   │   └── page.jsx
+│   ├── layout.jsx           # Root layout dengan Navbar
+│   └── globals.css          # Global styles
+├── components/              # Reusable components
+│   ├── Navbar.jsx           # Navigation dengan hamburger menu
+│   ├── Footer.jsx           # Footer component
+│   ├── Button.jsx           # Button variants
+│   └── Hr.jsx               # Horizontal rule with animation
+├── json/
+│   └── data.json            # Project data
+├── public/
+│   ├── image/               # Project images
+│   └── docs/                # CV/Resume PDF
+└── next.config.js           # Next.js configuration
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18.17 atau lebih tinggi
+- **pnpm** (recommended) atau npm/yarn
+
+### Installation
+
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/ronaltama/Alvalens-porto-2-nextJs.git
    cd Alvalens-porto-2-nextJs
    ```
-4. Install dependencies:
 
-   ```
+2. **Install dependencies**
+   ```bash
    pnpm install
    ```
-5. Start the development server
 
-   ```shell
-   pnpm next dev
-   ```
-6. Update the Intelliticks chat widget script in components/Chat.jsx, with your own
-
-   ```javascript
-    "use client"
-    import { useEffect } from "react";
-
-    // Component for Intelliticks chat widget
-    const Chat = () => {
-    	useEffect(() => {
-    		// Replace the Intelliticks script here
-
-    	}, []);
-
-    	return null;
-    };
-
-    export default Chat;
-   ```
-7. Set env.local by copying env.example and fill the variable
-
-   ```
-   NEXT_PUBLIC_SPOTIFY_CLIENT_ID=
-   NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET=
-   NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN=
+3. **Setup environment variables**
+   ```bash
+   cp .env.example .env.local
    ```
 
-   for further reference on how to setup spotify api you can check this [link ](https://leerob.io/blog/spotify-api-nextjs "leerob blog")
+4. **Edit `.env.local`** (optional - untuk Spotify widget)
+   ```env
+   NEXT_PUBLIC_SPOTIFY_CLIENT_ID=your_client_id
+   NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET=your_client_secret
+   NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN=your_refresh_token
+   ```
+   > Untuk setup Spotify API, lihat [panduan ini](https://leerob.io/blog/spotify-api-nextjs)
 
-## Usage
+5. **Run development server**
+   ```bash
+   pnpm dev
+   ```
 
-There are four main sections and two subpages in this portfolio website:
+6. **Open browser**  
+   Buka [http://localhost:3000](http://localhost:3000)
 
-### Home
+---
 
-The home page serves as an introduction to the portfolio. It provides an overview of your web development skills and passion for the field. Users can explore other sections from here.
+## 📜 Available Scripts
 
-### About
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server dengan Turbopack |
+| `pnpm build` | Build untuk production |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm generate-sitemap` | Generate sitemap.xml |
 
-The about page offers more detailed information about you as a web developer. It might include your background, education, skills, and interests in the field of web development.
+---
 
-### Projects
+## 🌐 Deployment
 
-The projects section showcases your work as a web developer. Users can explore the projects you've worked on, and you can provide details such as project descriptions, technologies used, and images.
+Lihat **[DEPLOYMENT.md](DEPLOYMENT.md)** untuk panduan lengkap:
+- Deploy ke Vercel
+- Setup custom domain
+- Konfigurasi DNS
+- Environment variables
 
-### Contact
+---
 
-The contact page allows users to get in touch with you. You can provide contact information or a contact form for inquiries.
+## 🎨 Customization
 
-### Subpages
+### Mengubah Data Project
 
-- **Project archive:** list all of your project that dont needed to display at main project page.
-- Project details: See the main project detail by clicking the project image.
+Edit file `json/data.json`:
 
-Feel free to customize and expand upon these sections and subpages to suit your needs and showcase your unique skills and projects.
+```json
+{
+  "Projects": [
+    {
+      "show": true,
+      "title": "Nama Project",
+      "desc": ["Deskripsi singkat", "Deskripsi detail"],
+      "year": "2025",
+      "thumbnail": "/image/projects/web/nama/1.png",
+      "images": ["/image/projects/web/nama/1.png"],
+      "tech": ["React", "Node.js"],
+      "slug": "nama-project",
+      "category": [1]
+    }
+  ]
+}
+```
 
-### Intelliticks chat widget
+### Mengubah Informasi Personal
 
-Enjoy chat realtime with ease using Intelliticks (https://app.intelliticks.com/)
+Edit file `app/layout.jsx` untuk metadata dan `app/(root)/page.jsx` untuk konten home.
 
-## Contributing
+---
 
-Contributions are welcome! If you find any issues or have suggestions, feel free to open an issue or submit a pull request.
+## 📄 License
 
-## Reference (inspiration)
+This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICENSE) file for details.
 
-- https://www.frans.my.id/
-- https://kuon-yagi-portfolio.netlify.app/
+---
 
-## License
+## 👤 Author
 
-This project is licensed under the GPL-3.0 License see the [LICENSE](LICENSE) file for details.
+**Edwin Ronaltama Mabrur**
 
-Copyright (C) 2025 Alvalen Shafelbilyunazra
+- Website: [ronaltama.vercel.app](https://ronaltama.vercel.app)
+- GitHub: [@ronaltama](https://github.com/ronaltama)
+- LinkedIn: [ronaltama](https://linkedin.com/in/ronaltama)
+- Email: tama.ronal@gmail.com
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if you find it helpful!**
+
+Copyright © 2025 Edwin Ronaltama Mabrur
+
+</div>

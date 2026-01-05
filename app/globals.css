@@ -27,7 +27,12 @@ body {
 	background-color: rgb(230, 230, 230);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: 'Jost', sans-serif !important;
 }
 
@@ -48,6 +53,29 @@ h1, h2, h3, h4, h5, h6 {
 
 .fp-watermark {
 	display: none !important;
+}
+
+/* Smooth scroll container for homepage */
+.scroll-container {
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scroll-snap-type: y mandatory;
+}
+
+.scroll-container>section {
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
+}
+
+/* Better smooth scroll timing */
+html {
+	scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
 }
 
 
@@ -75,7 +103,8 @@ li.active:after {
 
 }
 
-td, th {
+td,
+th {
 	@apply py-2 px-3;
 }
 

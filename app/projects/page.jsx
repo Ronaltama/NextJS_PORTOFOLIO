@@ -6,9 +6,6 @@ import Button from "@/components/Button";
 import Image from "next/image";
 
 // images
-import Intervyou1 from "@/public/image/projects/web/intervyou/intervyou-1.png";
-import Intervyou2 from "@/public/image/projects/web/intervyou/intervyou-2.png";
-import Intervyou3 from "@/public/image/projects/web/intervyou/intervyou-3.png";
 import ProjectAll from "@/public/image/projects.png";
 
 import Hr from "@/components/Hr";
@@ -20,7 +17,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const category = {
 	1: "Web Development",
-	2: "AI & Machine Learning",
+	2: "IoT & Smart Systems",
 	9: "Other",
 };
 
@@ -46,7 +43,7 @@ export default function Page() {
 							className="bg-slate-300 rounded-sm h-[400px] md:h-[600px] w-[80vw] md:w-[30vw] grayscale hover:grayscale-0 ">
 							<Image
 								src={ProjectAll}
-								alt="Alvalens"
+								alt="Ronaltama"
 								layout="fill"
 								objectFit="cover"
 								placeholder="blur"
@@ -83,79 +80,34 @@ export default function Page() {
 				<div className="mt-10 flex flex-col justify-start items-center w-full pl-10 md:pl-32">
 					<div className="flex justify-center items-center flex-col my-5 self-start ">
 						<Hr variant="long"></Hr>
-						<h1 className="text-3xl font-bold mt-3">Hightlight</h1>
+						<h1 className="text-3xl font-bold mt-3">Highlight</h1>
 					</div>
 				</div>
 				<div className="relative w-screen mx-auto container gap-4 px-10 grid grid-cols-1 md:grid-cols-2 mb-10">
 					<div className="flex justify-center items-start flex-col mb-5 ">
-						<div className="images relative w-full  aspect-square">
-							<div className="absolute top-28 left-10 h-[40%]  aspect-video grayscale hover:grayscale-0 transition-all ease duration-300 hover:scale-150 z-10">
+						<div className="images relative w-full aspect-square bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden">
+							<div className="absolute inset-0 flex items-center justify-center">
 								<motion.div
-									initial={{ opacity: 0, scale: 0.5, x: 100 }}
+									initial={{ opacity: 0, scale: 0.8 }}
 									whileInView={{
 										opacity: 1,
 										scale: 1,
-										x: 0,
 									}}
-									className="w-full h-full shadow-lg">
-									<Image
-										src={Intervyou1}
-										alt="Alvalens"
-										layout="fill"
-										objectFit="cover"
-										placeholder="blur"
-										className="rat"
-									/>
+									transition={{ duration: 0.5 }}
+									className="text-center p-8">
+									<div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+										<svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+										</svg>
+									</div>
+									<h3 className="text-2xl font-bold text-white mb-2">Real-Time Dashboard</h3>
+									<p className="text-gray-400">IoT Monitoring System</p>
 								</motion.div>
 							</div>
-							<div className="absolute top-10 right-28 h-[30%]  aspect-video grayscale hover:grayscale-0 transition-all ease duration-300 hover:scale-150">
-								<motion.div
-									initial={{
-										opacity: 0,
-										scale: 0.5,
-										x: -100,
-									}}
-									whileInView={{
-										opacity: 1,
-										scale: 1,
-										x: 0,
-									}}
-									transition={{ delay: 0.3 }}
-									className="w-full h-full shadow-lg ">
-									<Image
-										src={Intervyou3}
-										alt="Alvalens"
-										layout="fill"
-										objectFit="cover"
-										placeholder="blur"
-										objectPosition="0% 0%"
-									/>
-								</motion.div>
-							</div>
-							<div className="absolute bottom-10 md:bottom-26 right-20 h-[35%]  aspect-video grayscale hover:grayscale-0 transition-all ease duration-300 hover:scale-150">
-								<motion.div
-									initial={{
-										opacity: 0,
-										scale: 0.5,
-										x: -100,
-									}}
-									whileInView={{
-										opacity: 1,
-										scale: 1,
-										x: 0,
-									}}
-									transition={{
-										delay: 0.5,
-									}}
-									className="w-full h-full shadow-lg">
-									<Image
-										src={Intervyou2}
-										alt="Alvalens"
-										layout="fill"
-										objectFit="cover"
-										placeholder="blur"
-									/>
-								</motion.div>
+							<div className="absolute bottom-4 left-4 right-4 flex gap-2">
+								<span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Golang</span>
+								<span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">Vue.js</span>
+								<span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">MQTT</span>
 							</div>
 						</div>
 					</div>
@@ -174,29 +126,17 @@ export default function Page() {
 							type: "spring",
 						}}>
 						<h2 className="text-2xl font-bold tracking-wider mb-3">
-							Intervyou AI
+							Hotel Integrated Monitoring System
 						</h2>
 						<p className="text-gray-600 text-justify title text-lg">
-							AI Based interview Preparation Website created to help fresh
-							graduates and job seekers prepare for interviews and optimize
-							their CV through AI-powered features. The website is built using
-							Next.js, TypeScript, Tailwind CSS, Shadcn UI, Prisma, and MySQL
-							(TiDB). This website can comprehensively analyze the user&apos;s
-							interview performance by providing a analysis of the user&apos;s
-							answer, gesture, and material recommendation to improve the user&apos;s
-							interview skills.
-						</p>{" "}
+							Sistem dashboard real-time untuk memantau status perangkat IoT dan
+							operasional kamar hotel. Fokus pada pengembangan Full Stack web application
+							yang terintegrasi dengan hardware melalui protokol MQTT dan WebSocket.
+							Dibangun menggunakan Golang untuk backend dan Vue.js untuk frontend.
+						</p>
 						<div className="mt-3">
 							<Button variation="primary">
-								<Link href="projects/intervyou">More</Link>
-							</Button>
-							<Button variation="secondary">
-								<a
-									href="https://www.intervyou.me"
-									target="_blank"
-									rel="noopener noreferrer">
-									Preview
-								</a>
+								<Link href="projects/hotel-monitoring">More</Link>
 							</Button>
 						</div>
 					</motion.div>
@@ -240,11 +180,10 @@ export default function Page() {
 					{Object.keys(category).map((key, index) => (
 						<button
 							key={index}
-							className={`px-2 md:px-4 py-2 rounded-lg cursor-pointer transition-all ease duration-300 focus:bg-gray-300 focus:text-black focus:ring focus:ring-slate-500 ${
-								activeCategory === key
-									? "bg-gray-300 text-black hover:bg-gray-700 hover:text-white"
-									: "bg-gray-700 text-white hover:bg-gray-300 hover:text-black"
-							}`}
+							className={`px-2 md:px-4 py-2 rounded-lg cursor-pointer transition-all ease duration-300 focus:bg-gray-300 focus:text-black focus:ring focus:ring-slate-500 ${activeCategory === key
+								? "bg-gray-300 text-black hover:bg-gray-700 hover:text-white"
+								: "bg-gray-700 text-white hover:bg-gray-300 hover:text-black"
+								}`}
 							onClick={() => setActiveCategory(key)}>
 							{category[key]}
 						</button>

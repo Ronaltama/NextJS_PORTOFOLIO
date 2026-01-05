@@ -6,114 +6,58 @@ import { useState } from "react";
 const experiences = [
 	{
 		id: 1,
-		startDate: "Sep 2023",
-		endDate: "Jan 2024",
-		company: "Universitas Negeri Malang",
-		position: "Assistant Lecturer",
-		type: "Seasonal",
-		location: "Malang, Indonesia",
+		startDate: "Okt 2022",
+		endDate: "Jul 2024",
+		company: "PT. Eskanusa Putraco",
+		position: "Programmer",
+		type: "Full-time",
+		location: "Jakarta, Indonesia",
 		description:
-			"Assisted in teaching and mentoring students in algorithms and data structures, focusing on practical applications and problem-solving techniques. Developed course materials and provided support in lab sessions.",
-		skills: ["Python", "C", "Algorithms", "Data Structures", "Mentoring"],
+			"Merancang dan mengembangkan program smart system (Lutron) sesuai kebutuhan hotel. Melakukan pemrograman dan implementasi solusi sistem cerdas secara on-site untuk efisiensi operasional. Berkolaborasi dengan tim IT hotel untuk instalasi, troubleshooting, dan optimasi performa.",
+		skills: ["Lutron System", "IoT", "Smart System", "Troubleshooting", "Teamwork"],
 	},
 	{
 		id: 2,
-		startDate: "Jul 2024",
-		endDate: "Jan 2025",
-		company: "Outlier AI",
-		position: "AI Trainer",
-		type: "Freelance (Remote)",
-		location: "Oakland, California",
+		startDate: "Okt 2024",
+		endDate: "Jul 2025",
+		company: "Robotika UNS",
+		position: "Staff Programmer",
+		type: "Freelance",
+		location: "Surakarta, Central Java",
 		description:
-			"Trained LLM models using RLFH, focusing on enhancing their understanding of human language and improving their response accuracy. Collaborated with a team of AI specialists to refine model performance and ensure high-quality outputs.",
-		skills: ["Generative AI", "RLFH", "LLM", "Prompt Engineering", "Teamwork"],
+			"Mengembangkan pemrograman robotika menggunakan C++ dan Arduino IDE. Terlibat dalam riset dan implementasi algoritma kontrol untuk perangkat keras robotik di lingkungan universitas.",
+		skills: ["C++", "Arduino", "Robotics", "Algorithm", "Research"],
 	},
 	{
 		id: 3,
-		startDate: "Jun 2023",
-		endDate: "Feb 2025",
-		company: "PUI-PT DLI",
-		position: "Fullstack Developer",
-		type: "Freelance",
-		location: "Malang, Indonesia",
+		startDate: "Nov 2024",
+		endDate: "Nov 2024",
+		company: "BEM Sekolah Vokasi UNS",
+		position: "Riset dan Data",
+		type: "Internship",
+		location: "Surakarta, Central Java",
 		description:
-			"Crafted and maintained web applications using Laravel, ensuring high performance and responsiveness. Collaborated with designers and other  developers to create seamless user experiences.",
-		skills: ["Laravel", "MySQL", "PHP", "JavaScript", "Teamwork"],
+			"Merumuskan pertanyaan survei final untuk menilai kinerja seluruh divisi BEM SV, menyebarkan survei kepada stakeholders, serta melakukan pengumpulan dan analisis data.",
+		skills: ["Data Analysis", "Survey Design", "Research", "Documentation"],
 	},
 	{
 		id: 4,
-		startDate: "Apr 2025",
-		endDate: "Jul 2025",
-		company: "Vektorian Labophase",
-		position: "Front-end Developer",
+		startDate: "2025",
+		endDate: "Present",
+		company: "Freelance",
+		position: "Software Engineer",
 		type: "Freelance",
-		location: "Malang, Indonesia",
+		location: "Remote / Surakarta",
 		description:
-			"Developed and maintained web applications using Next.js. Focused on creating responsive and user-friendly interfaces while ensuring backend functionality. Collaborated with backend and designers to implement modern UI/UX principles.",
-		skills: ["Next.js", "Typescript", "Teamwork"],
-	},
-	{
-		id: 5,
-		startDate: "Apr 2023",
-		endDate: "Present",
-		company: "Self-Employed",
-		position: "Web Developer & AI Consultant",
-		type: "Freelance",
-		location: "Malang, Indonesia",
-		description:
-			"Developed 15+ web applications using Next.js, React, and Laravel. Provided AI consulting services, including creating custom LLMs. Focused on delivering high-quality, user-friendly applications and AI solutions.",
+			"Mengembangkan sistem monitoring hotel terintegrasi secara Full Stack. Bertanggung jawab atas perancangan arsitektur sistem, pengembangan antarmuka (Frontend), serta logika server dan database (Backend) untuk memastikan pemantauan operasional hotel berjalan real-time dan akurat.",
 		skills: [
-			"Next.js",
-			"React",
-			"Laravel",
-			"MySQL",
+			"Golang",
+			"Vue.js",
+			"MQTT",
+			"WebSocket",
 			"PostgreSQL",
-			"MongoDB",
-			"JavaScript",
-			"TypeScript",
-			"Gemini AI",
-		],
-	},
-	{
-		id: 6,
-		startDate: "Aug 2023",
-		endDate: "Present",
-		company: "PT Hafdzamedia Teknologi Aplikasi",
-		position: "Fullstack Web Developer",
-		type: "Part-time",
-		location: "Malang, Indonesia",
-		description:
-			"Developed and maintained web applications using React, Next.js, and Laravel. Focused on creating responsive and user-friendly interfaces while ensuring backend functionality.",
-		skills: [
-			"React",
-			"Next.js",
-			"Laravel",
-			"MySQL",
-			"JavaScript",
-			"TypeScript",
-			"Teamwork",
-		],
-	},
-	{
-		id: 7,
-		startDate: "Feb 2025",
-		endDate: "Present",
-		company: "Joki Proyek",
-		position: "IT Implementation Specialist",
-		type: "Internship (Remote)",
-		location: "Malang, Indonesia",
-		description:
-			"Developed and maintained current internal web applications using Next.js & and Laravel. Fixed bugs and implemented new features to enhance user experience. Collaborated with the team to ensure smooth deployment and functionality of applications.",
-		skills: [
-			"Next.js",
-			"Laravel",
-			"MySQL",
-			"PostgreSQL",
-			"JavaScript",
-			"TypeScript",
-			"MongoDB",
 			"Docker",
-			"Teamwork",
+			"Full Stack",
 		],
 	},
 ];
@@ -152,11 +96,10 @@ function TimelineCard({ experience, index, isEven }) {
 			initial={{ opacity: 0, y: -20 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			transition={{ delay: index * 0.15, duration: 0.5 }}
-			className={`flex ps-10 md:ps-0 ${
-				isEven
+			className={`flex ps-10 md:ps-0 ${isEven
 					? "md:justify-center md:translate-x-68"
 					: "md:justify-center md:-translate-x-68"
-			} justify-center mb-4`}>
+				} justify-center mb-4`}>
 			<div className="bg-gradient-to-r from-black to-gray-800 text-white px-12 py-3 rounded-xl shadow-lg border border-gray-600 min-w-max">
 				<div className="flex items-center justify-center gap-6">
 					<div className="text-center">
@@ -186,9 +129,8 @@ function ExperienceCard({ experience, index, isEven }) {
 			initial={{ opacity: 0, y: 50 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			transition={{ delay: index * 0.2, duration: 0.6 }}
-			className={`relative group ${
-				isEven ? "md:ml-auto md:pl-12" : "md:mr-auto md:pr-12"
-			} md:w-1/2`}>
+			className={`relative group ${isEven ? "md:ml-auto md:pl-12" : "md:mr-auto md:pr-12"
+				} md:w-1/2`}>
 			{" "}
 			{/* Card */}
 			<div
