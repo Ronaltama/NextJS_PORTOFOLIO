@@ -1,0 +1,24 @@
+{
+  "Education": {
+    "period": "2024 - Present",
+    "institution": "Universitas Sebelas Maret (UNS)",
+    "major": "D3 Teknik Informatika | Informatics Engineering",
+    "expectedGraduation": "Expected: 2027",
+    "activities": "Activities: Tim Robotika UNS",
+    "description": [
+      "Saya menempuh pendidikan di Universitas Sebelas Maret (UNS) jurusan Teknik Informatika. Perjalanan saya di dunia teknologi didorong oleh rasa ingin tahu dan kreativitas—menggabungkan pengembangan full stack dengan implementasi IoT dan smart system.",
+      "Sebagai anggota Tim Robotika UNS, saya terlibat dalam pengembangan algoritma kontrol dan pemrograman robotik. Pengalaman ini memperkuat kemampuan saya dalam integrasi hardware-software.",
+      "Saya memiliki passion untuk menyelesaikan masalah nyata melalui kode, terutama di bidang Full Stack Development dan IoT / Embedded Systems."
+    ]
+  },
+  "Achievements": [
+    {
+      "id": 1,
+      "year": "2024",
+      "title": "Staff Programmer Robotika UNS",
+      "subtitle": "Tim Robotika Universitas Sebelas Maret",
+      "date": "Okt 2024",
+      "iconType": "trophy"
+    }
+  ]
+}

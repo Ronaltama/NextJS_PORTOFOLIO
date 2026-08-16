@@ -119,6 +119,87 @@ export async function POST(request) {
 			}
 		}
 
+		// 1.2 Action: UPDATE_EDUCATION (Simpan education.json)
+		if (action === "UPDATE_EDUCATION") {
+			const jsonString = JSON.stringify(data, null, 2);
+			const relativePath = "json/education.json";
+
+			if (process.env.GITHUB_TOKEN) {
+				await updateGitHubFile({
+					filePath: relativePath,
+					content: jsonString,
+					message: "feat(admin): update education & achievements data via Admin Dashboard",
+				});
+				return NextResponse.json({
+					success: true,
+					message: "Data pendidikan & prestasi berhasil disimpan dan di-commit ke GitHub!",
+					source: "github",
+				});
+			} else {
+				const localPath = path.join(process.cwd(), relativePath);
+				await fs.writeFile(localPath, jsonString, "utf-8");
+				return NextResponse.json({
+					success: true,
+					message: "Data pendidikan & prestasi berhasil disimpan ke lokal (Dev Mode)!",
+					source: "local",
+				});
+			}
+		}
+
+		// 1.3 Action: UPDATE_SKILLS (Simpan skills.json)
+		if (action === "UPDATE_SKILLS") {
+			const jsonString = JSON.stringify(data, null, 2);
+			const relativePath = "json/skills.json";
+
+			if (process.env.GITHUB_TOKEN) {
+				await updateGitHubFile({
+					filePath: relativePath,
+					content: jsonString,
+					message: "feat(admin): update skills data via Admin Dashboard",
+				});
+				return NextResponse.json({
+					success: true,
+					message: "Data skills berhasil disimpan dan di-commit ke GitHub!",
+					source: "github",
+				});
+			} else {
+				const localPath = path.join(process.cwd(), relativePath);
+				await fs.writeFile(localPath, jsonString, "utf-8");
+				return NextResponse.json({
+					success: true,
+					message: "Data skills berhasil disimpan ke lokal (Dev Mode)!",
+					source: "local",
+				});
+			}
+		}
+
+		// 1.4 Action: UPDATE_PROFILE (Simpan profile.json)
+		if (action === "UPDATE_PROFILE") {
+			const jsonString = JSON.stringify(data, null, 2);
+			const relativePath = "json/profile.json";
+
+			if (process.env.GITHUB_TOKEN) {
+				await updateGitHubFile({
+					filePath: relativePath,
+					content: jsonString,
+					message: "feat(admin): update profile & bio data via Admin Dashboard",
+				});
+				return NextResponse.json({
+					success: true,
+					message: "Data profil & bio berhasil disimpan dan di-commit ke GitHub!",
+					source: "github",
+				});
+			} else {
+				const localPath = path.join(process.cwd(), relativePath);
+				await fs.writeFile(localPath, jsonString, "utf-8");
+				return NextResponse.json({
+					success: true,
+					message: "Data profil & bio berhasil disimpan ke lokal (Dev Mode)!",
+					source: "local",
+				});
+			}
+		}
+
 		// 2. Action: UPLOAD_IMAGE (Upload foto project)
 		if (action === "UPLOAD_IMAGE") {
 			const { fileName, base64Data, slug } = image;

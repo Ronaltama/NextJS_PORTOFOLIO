@@ -1,0 +1,76 @@
+{
+  "SkillCategories": [
+    {
+      "key": "web",
+      "title": "Full Stack Development",
+      "iconType": "web",
+      "description": "Building modern, scalable web applications",
+      "languages": [
+        "Golang",
+        "PHP",
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "Vue.js",
+        "Laravel",
+        "Inertia.js",
+        "RESTful API"
+      ],
+      "tools": ["Git", "GitHub", "Docker", "MySQL", "PostgreSQL", "Linux", "VS Code"]
+    },
+    {
+      "key": "api",
+      "title": "Backend & API",
+      "iconType": "api",
+      "description": "Creating robust backend services and APIs",
+      "languages": [
+        "Golang",
+        "PHP",
+        "Laravel",
+        "Python",
+        "MySQL",
+        "PostgreSQL",
+        "MQTT",
+        "WebSocket"
+      ],
+      "tools": ["Docker", "Postman", "Git", "Linux"]
+    },
+    {
+      "key": "iot",
+      "title": "IoT & Embedded Systems",
+      "iconType": "iot",
+      "description": "Smart systems and hardware-software integration",
+      "languages": [
+        "C++",
+        "Python",
+        "Arduino",
+        "ESP32",
+        "Raspberry Pi",
+        "MQTT",
+        "Node-RED"
+      ],
+      "tools": [
+        "Arduino IDE",
+        "Lutron System",
+        "Blynk",
+        "Sensor Integration"
+      ]
+    },
+    {
+      "key": "robotics",
+      "title": "Robotics",
+      "iconType": "robotics",
+      "description": "Control algorithms and robotic systems",
+      "languages": [
+        "C++",
+        "Python",
+        "Arduino",
+        "Control Algorithms"
+      ],
+      "tools": [
+        "Arduino IDE",
+        "Robot Operating System"
+      ]
+    }
+  ]
+}
