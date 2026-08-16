@@ -20,7 +20,11 @@ import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
+import ProfileData from "@/json/profile.json";
+
 const MyPage = () => {
+	const prof = ProfileData.Profile || {};
+
 	return (
 		<div className="scroll-container h-screen overflow-y-scroll snap-y snap-mandatory"
 			style={{ scrollBehavior: 'smooth' }}>
@@ -41,7 +45,7 @@ const MyPage = () => {
 									width={500}
 									height={500}
 									className="rounded-full w-full h-full object-cover "
-									alt="Ronaltama"
+									alt={prof.nickname || "Ronaltama"}
 									placeholder="blur"
 								/>
 							</div>
@@ -54,7 +58,7 @@ const MyPage = () => {
 								delay: 0.2,
 								type: "spring",
 							}}>
-							Edwin Ronaltama Mabrur
+							{prof.name || "Edwin Ronaltama Mabrur"}
 						</motion.h3>
 						<motion.h1
 							className="text-black text-5xl md:text-6xl lg:text-7xl 2xl:text-8xl font-bold my-2 md:my-5"
@@ -64,20 +68,17 @@ const MyPage = () => {
 								delay: 0.3,
 								type: "spring",
 							}}>
-							Software Engineer
+							{prof.headline || "Software Engineer"}
 						</motion.h1>
 						<motion.p
-							className="title text-md  2xl:text-xl mt-4 tracking-wider text-gray-500 leading-[1.7rem]"
+							className="title text-md 2xl:text-xl mt-4 tracking-wider text-gray-500 leading-[1.7rem]"
 							initial={{ x: -100, opacity: 0 }}
 							whileInView={{ x: 0, opacity: 1 }}
 							transition={{
 								delay: 0.4,
 								type: "spring",
 							}}>
-							Software Engineer dan Mahasiswa Teknik Informatika UNS dengan
-							spesialisasi pengembangan Full Stack dan IoT. Berpengalaman
-							profesional dalam merancang sistem cerdas untuk industri
-							perhotelan dan integrasi hardware-software.
+							{prof.subheadline || "Software Engineer dan Mahasiswa Teknik Informatika UNS dengan spesialisasi pengembangan Full Stack dan IoT."}
 						</motion.p>
 						<motion.div
 							className="buttons flex flex-row justify-center items-center space-x-4 mt-10"
@@ -89,7 +90,7 @@ const MyPage = () => {
 							}}>
 							<Button variation="primary">
 								<Link
-									href={"/docs/cv.pdf"}
+									href={prof.resumeUrl || "/docs/resume.pdf"}
 									target="_blank"
 									rel="noopener noreferrer"
 									download>
