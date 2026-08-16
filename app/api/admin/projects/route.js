@@ -70,7 +70,6 @@ export async function POST(request) {
 			const jsonString = JSON.stringify(data, null, 2);
 			const relativePath = "json/data.json";
 
-			// Jika ada GITHUB_TOKEN, commit ke GitHub (Production/Vercel)
 			if (process.env.GITHUB_TOKEN) {
 				await updateGitHubFile({
 					filePath: relativePath,
@@ -83,12 +82,38 @@ export async function POST(request) {
 					source: "github",
 				});
 			} else {
-				// Local Dev Mode: Simpan langsung ke filesystem
 				const localPath = path.join(process.cwd(), relativePath);
 				await fs.writeFile(localPath, jsonString, "utf-8");
 				return NextResponse.json({
 					success: true,
 					message: "Data project berhasil disimpan ke lokal (Dev Mode)!",
+					source: "local",
+				});
+			}
+		}
+
+		// 1.1 Action: UPDATE_EXPERIENCES (Simpan experiences.json)
+		if (action === "UPDATE_EXPERIENCES") {
+			const jsonString = JSON.stringify(data, null, 2);
+			const relativePath = "json/experiences.json";
+
+			if (process.env.GITHUB_TOKEN) {
+				await updateGitHubFile({
+					filePath: relativePath,
+					content: jsonString,
+					message: "feat(admin): update experiences data via Admin Dashboard",
+				});
+				return NextResponse.json({
+					success: true,
+					message: "Data pengalaman berhasil disimpan dan di-commit ke GitHub!",
+					source: "github",
+				});
+			} else {
+				const localPath = path.join(process.cwd(), relativePath);
+				await fs.writeFile(localPath, jsonString, "utf-8");
+				return NextResponse.json({
+					success: true,
+					message: "Data pengalaman berhasil disimpan ke lokal (Dev Mode)!",
 					source: "local",
 				});
 			}

@@ -1,0 +1,48 @@
+{
+  "Experiences": [
+    {
+      "id": 1,
+      "startDate": "Okt 2022",
+      "endDate": "Jul 2024",
+      "company": "PT. Eskanusa Putraco",
+      "position": "Programmer",
+      "type": "Full-time",
+      "location": "Jakarta, Indonesia",
+      "description": "Merancang dan mengembangkan program smart system (Lutron) sesuai kebutuhan hotel. Melakukan pemrograman dan implementasi solusi sistem cerdas secara on-site untuk efisiensi operasional. Berkolaborasi dengan tim IT hotel untuk instalasi, troubleshooting, dan optimasi performa.",
+      "skills": ["Lutron System", "IoT", "Smart System", "Troubleshooting", "Teamwork"]
+    },
+    {
+      "id": 2,
+      "startDate": "Okt 2024",
+      "endDate": "Jul 2025",
+      "company": "Robotika UNS",
+      "position": "Staff Programmer",
+      "type": "Freelance",
+      "location": "Surakarta, Central Java",
+      "description": "Mengembangkan pemrograman robotika menggunakan C++ dan Arduino IDE. Terlibat dalam riset dan implementasi algoritma kontrol untuk perangkat keras robotik di lingkungan universitas.",
+      "skills": ["C++", "Arduino", "Robotics", "Algorithm", "Research"]
+    },
+    {
+      "id": 3,
+      "startDate": "Nov 2024",
+      "endDate": "Nov 2024",
+      "company": "BEM Sekolah Vokasi UNS",
+      "position": "Riset dan Data",
+      "type": "Internship",
+      "location": "Surakarta, Central Java",
+      "description": "Merumuskan pertanyaan survei final untuk menilai kinerja seluruh divisi BEM SV, menyebarkan survei kepada stakeholders, serta melakukan pengumpulan dan analisis data.",
+      "skills": ["Data Analysis", "Survey Design", "Research", "Documentation"]
+    },
+    {
+      "id": 4,
+      "startDate": "2025",
+      "endDate": "Present",
+      "company": "Freelance",
+      "position": "Software Engineer",
+      "type": "Freelance",
+      "location": "Remote / Surakarta",
+      "description": "Mengembangkan sistem monitoring hotel terintegrasi secara Full Stack. Bertanggung jawab atas perancangan arsitektur sistem, pengembangan antarmuka (Frontend), serta logika server dan database (Backend) untuk memastikan pemantauan operasional hotel berjalan real-time dan akurat.",
+      "skills": ["Golang", "Vue.js", "MQTT", "WebSocket", "PostgreSQL", "Docker", "Full Stack"]
+    }
+  ]
+}
