@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NavItems = ({ isNavOpen, setIsNavOpen }) => {
 	const [isMobile, setIsMobile] = useState(false);
@@ -200,8 +201,13 @@ const NavItems = ({ isNavOpen, setIsNavOpen }) => {
 };
 
 const Navbar = () => {
+	const pathname = usePathname();
 	const navRef = useRef(null);
 	const [isNavOpen, setIsNavOpen] = useState(false);
+
+	if (pathname?.startsWith("/admin") || pathname?.startsWith("/login")) {
+		return null;
+	}
 
 	const toggleNav = () => {
 		setIsNavOpen(!isNavOpen);
