@@ -19,25 +19,24 @@ import {
 	faSpinner,
 	faEye,
 	faEyeSlash,
-	faCode,
-	faLink,
 	faImage,
-	faShieldAlt,
 	faFolderOpen,
+	faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function AdminPage() {
 	const { user, isAdmin, loading, logout } = useAuth();
 	const router = useRouter();
 
 	const [projects, setProjects] = useState(initialProjectsData.Projects || []);
-	const [activeProject, setActiveProject] = useState(null); // project object being edited
+	const [activeProject, setActiveProject] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
-	const [statusMessage, setStatusMessage] = useState(null); // { type: 'success'|'error', text: '' }
+	const [statusMessage, setStatusMessage] = useState(null);
 
-	// Protection check
+	// Protect route
 	useEffect(() => {
 		if (!loading && !isAdmin) {
 			router.push("/login");
@@ -46,16 +45,15 @@ export default function AdminPage() {
 
 	if (loading || !isAdmin) {
 		return (
-			<div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+			<div className="min-h-screen bg-zinc-950 text-zinc-400 flex items-center justify-center font-sans">
 				<div className="flex items-center gap-3">
-					<FontAwesomeIcon icon={faSpinner} className="animate-spin text-emerald-400 text-2xl" />
-					<span className="text-slate-300">Memeriksa Hak Akses Admin...</span>
+					<FontAwesomeIcon icon={faSpinner} className="animate-spin text-zinc-300 text-lg" />
+					<span className="text-sm font-medium">Memuat Admin Portal...</span>
 				</div>
 			</div>
 		);
 	}
 
-	// Handle Save All Projects to Server/GitHub
 	const handleSaveAll = async (updatedProjectsList) => {
 		setIsSaving(true);
 		setStatusMessage(null);
@@ -76,20 +74,19 @@ export default function AdminPage() {
 
 			setStatusMessage({
 				type: "success",
-				text: result.message || "Berhasil menyimpan perubahan data project!",
+				text: result.message || "Perubahan berhasil disimpan.",
 			});
 		} catch (err) {
 			console.error(err);
 			setStatusMessage({
 				type: "error",
-				text: err.message || "Terjadi kesalahan saat menyimpan data.",
+				text: err.message || "Terjadi kesalahan saat menyimpan.",
 			});
 		} finally {
 			setIsSaving(false);
 		}
 	};
 
-	// Handle Toggle Visibility (Show/Hide)
 	const handleToggleVisibility = (index) => {
 		const updated = [...projects];
 		updated[index].show = !updated[index].show;
@@ -97,22 +94,19 @@ export default function AdminPage() {
 		handleSaveAll(updated);
 	};
 
-	// Handle Delete Project
 	const handleDeleteProject = (index) => {
-		if (confirm(`Yakin ingin menghapus project "${projects[index].title}"?`)) {
+		if (confirm(`Hapus project "${projects[index].title}"?`)) {
 			const updated = projects.filter((_, i) => i !== index);
 			setProjects(updated);
 			handleSaveAll(updated);
 		}
 	};
 
-	// Open Edit Modal / Form
 	const handleEditOpen = (proj, index) => {
 		setActiveProject({ ...proj, _index: index });
 		setIsEditing(true);
 	};
 
-	// Open Create New Project Form
 	const handleCreateOpen = () => {
 		setActiveProject({
 			show: true,
@@ -126,16 +120,15 @@ export default function AdminPage() {
 			tech: [],
 			slug: "",
 			category: [1],
-			_index: -1, // -1 means new project
+			_index: -1,
 		});
 		setIsEditing(true);
 	};
 
-	// Save Project Form Modal
 	const handleSaveForm = (e) => {
 		e.preventDefault();
 		if (!activeProject.title || !activeProject.slug) {
-			alert("Judul dan Slug wajib diisi!");
+			alert("Judul dan Slug wajib diisi.");
 			return;
 		}
 
@@ -146,7 +139,7 @@ export default function AdminPage() {
 		if (activeProject._index >= 0) {
 			updated[activeProject._index] = projectObj;
 		} else {
-			updated.unshift(projectObj); // Add to start
+			updated.unshift(projectObj);
 		}
 
 		setProjects(updated);
@@ -154,13 +147,12 @@ export default function AdminPage() {
 		handleSaveAll(updated);
 	};
 
-	// Image Upload Handler
 	const handleFileUpload = async (e, targetField = "thumbnail") => {
 		const file = e.target.files?.[0];
 		if (!file) return;
 
 		if (!activeProject.slug) {
-			alert("Mohon isi Slug Project terlebih dahulu sebelum upload gambar!");
+			alert("Mohon isi Slug Project terlebih dahulu.");
 			return;
 		}
 
@@ -185,7 +177,7 @@ export default function AdminPage() {
 				});
 
 				const result = await res.json();
-				if (!res.ok) throw new Error(result.error || "Gagal mengupload gambar.");
+				if (!res.ok) throw new Error(result.error || "Gagal mengunggah gambar.");
 
 				const uploadedUrl = result.url;
 				if (targetField === "thumbnail") {
@@ -196,8 +188,6 @@ export default function AdminPage() {
 						images: [...(prev.images || []), uploadedUrl],
 					}));
 				}
-
-				alert(`Gambar berhasil di-upload: ${uploadedUrl}`);
 			};
 			reader.readAsDataURL(file);
 		} catch (err) {
@@ -209,151 +199,160 @@ export default function AdminPage() {
 	};
 
 	return (
-		<main className="min-h-screen bg-slate-950 text-slate-100 p-6 md:p-12">
-			{/* Admin Header Bar */}
-			<div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-slate-900/90 border border-slate-800 p-6 rounded-2xl mb-8 shadow-xl backdrop-blur-md">
-				<div className="flex items-center gap-4">
-					<div className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-bold text-lg shadow-lg">
-						{user?.displayName ? user.displayName[0] : "A"}
-					</div>
-					<div>
+		<main className="min-h-screen bg-zinc-950 text-zinc-200 font-sans selection:bg-zinc-800">
+			{/* Top Bar Navigation */}
+			<header className="border-b border-zinc-900 bg-zinc-950/80 sticky top-0 z-30 backdrop-blur-md">
+				<div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+					<div className="flex items-center gap-4">
+						<Link
+							href="/"
+							className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors flex items-center gap-1.5 font-medium">
+							<FontAwesomeIcon icon={faArrowLeft} className="text-[10px]" /> Portofolio
+						</Link>
+						<span className="text-zinc-800">|</span>
 						<div className="flex items-center gap-2">
-							<h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
-							<span className="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-medium flex items-center gap-1">
-								<FontAwesomeIcon icon={faShieldAlt} /> Verified Admin
-							</span>
+							<span className="w-2 h-2 rounded-full bg-emerald-500/80"></span>
+							<h1 className="text-sm font-semibold text-zinc-100 tracking-tight">Admin Dashboard</h1>
 						</div>
-						<p className="text-slate-400 text-sm mt-0.5">{user?.email}</p>
 					</div>
-				</div>
 
-				<div className="flex items-center gap-3">
-					<button
-						onClick={handleCreateOpen}
-						className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 active:scale-95 text-sm">
-						<FontAwesomeIcon icon={faPlus} /> Tambah Project
-					</button>
-
-					<button
-						onClick={logout}
-						className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-rose-400 px-4 py-2.5 rounded-xl border border-slate-700 transition-all active:scale-95 text-sm">
-						<FontAwesomeIcon icon={faSignOutAlt} /> Logout
-					</button>
-				</div>
-			</div>
-
-			{/* Notification Banner */}
-			{statusMessage && (
-				<motion.div
-					initial={{ opacity: 0, y: -10 }}
-					animate={{ opacity: 1, y: 0 }}
-					className={`max-w-7xl mx-auto mb-6 p-4 rounded-xl flex items-center justify-between text-sm ${
-						statusMessage.type === "success"
-							? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
-							: "bg-rose-500/10 border border-rose-500/30 text-rose-300"
-					}`}>
 					<div className="flex items-center gap-3">
-						<FontAwesomeIcon
-							icon={statusMessage.type === "success" ? faCheckCircle : faExclamationCircle}
-							className="text-lg"
-						/>
-						<span>{statusMessage.text}</span>
+						<span className="text-xs text-zinc-400 font-mono hidden md:inline">{user?.email}</span>
+						<button
+							onClick={logout}
+							className="text-xs text-zinc-400 hover:text-zinc-200 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/50 transition-all flex items-center gap-1.5 font-medium">
+							<FontAwesomeIcon icon={faSignOutAlt} className="text-[11px]" /> Logout
+						</button>
 					</div>
-					<button onClick={() => setStatusMessage(null)} className="text-xs underline opacity-80 hover:opacity-100">
-						Tutup
-					</button>
-				</motion.div>
-			)}
+				</div>
+			</header>
 
-			{/* Project List Table / Grid */}
-			<div className="max-w-7xl mx-auto bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl">
-				<div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+			<div className="max-w-6xl mx-auto px-6 py-8">
+				{/* Notification Banner */}
+				{statusMessage && (
+					<motion.div
+						initial={{ opacity: 0, y: -6 }}
+						animate={{ opacity: 1, y: 0 }}
+						className={`mb-6 p-4 rounded-xl border text-xs flex items-center justify-between ${
+							statusMessage.type === "success"
+								? "bg-zinc-900 border-zinc-800 text-zinc-200"
+								: "bg-red-950/20 border-red-900/40 text-red-300"
+						}`}>
+						<div className="flex items-center gap-2.5">
+							<FontAwesomeIcon
+								icon={statusMessage.type === "success" ? faCheckCircle : faExclamationCircle}
+								className={statusMessage.type === "success" ? "text-zinc-400" : "text-red-400"}
+							/>
+							<span>{statusMessage.text}</span>
+						</div>
+						<button onClick={() => setStatusMessage(null)} className="text-zinc-500 hover:text-zinc-300 text-[11px]">
+							Tutup
+						</button>
+					</motion.div>
+				)}
+
+				{/* Header Actions & Title */}
+				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
 					<div>
-						<h2 className="text-lg font-bold text-white flex items-center gap-2">
-							<FontAwesomeIcon icon={faFolderOpen} className="text-emerald-400" />
-							Daftar Project Portofolio ({projects.length})
+						<h2 className="text-lg font-semibold text-zinc-100 flex items-center gap-2">
+							<FontAwesomeIcon icon={faFolderOpen} className="text-zinc-500 text-sm" />
+							Project Management ({projects.length})
 						</h2>
-						<p className="text-slate-400 text-xs mt-1">
-							Kelola judul, deskripsi, tech stack, dan gambar yang ditampilkan di situs portofolio.
+						<p className="text-xs text-zinc-500 mt-0.5">
+							Kelola data project, urutan, status publikasi, dan file gambar.
 						</p>
 					</div>
 
-					<button
-						onClick={() => handleSaveAll()}
-						disabled={isSaving}
-						className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all shadow-md disabled:opacity-50">
-						<FontAwesomeIcon icon={isSaving ? faSpinner : faSave} className={isSaving ? "animate-spin" : ""} />
-						<span>{isSaving ? "Menyimpan..." : "Simpan Semua Data"}</span>
-					</button>
+					<div className="flex items-center gap-2.5">
+						<button
+							onClick={handleCreateOpen}
+							className="text-xs font-medium bg-zinc-100 hover:bg-white text-zinc-950 px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-sm active:scale-95">
+							<FontAwesomeIcon icon={faPlus} className="text-[11px]" /> Tambah Project
+						</button>
+
+						<button
+							onClick={() => handleSaveAll()}
+							disabled={isSaving}
+							className="text-xs font-medium bg-zinc-900 hover:bg-zinc-800 text-zinc-200 px-3.5 py-2 rounded-lg border border-zinc-800 transition-all flex items-center gap-1.5 disabled:opacity-50">
+							<FontAwesomeIcon icon={isSaving ? faSpinner : faSave} className={isSaving ? "animate-spin" : ""} />
+							<span>{isSaving ? "Menyimpan..." : "Simpan Perubahan"}</span>
+						</button>
+					</div>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{/* Projects Grid */}
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{projects.map((proj, idx) => (
 						<motion.div
 							key={proj.slug || idx}
 							layout
-							className={`bg-slate-950/80 border rounded-xl p-5 flex flex-col justify-between transition-all ${
-								proj.show ? "border-slate-800 hover:border-slate-700" : "border-slate-900 opacity-60"
+							className={`bg-zinc-900/60 border rounded-xl p-4 flex flex-col justify-between transition-all ${
+								proj.show
+									? "border-zinc-800/80 hover:border-zinc-700"
+									: "border-zinc-900/60 opacity-50 bg-zinc-950/40"
 							}`}>
 							<div>
-								<div className="flex items-start justify-between gap-2 mb-3">
-									<h3 className="font-semibold text-white text-base line-clamp-1">{proj.title}</h3>
-									<span className="text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono">
+								{/* Card Top */}
+								<div className="flex items-start justify-between gap-2 mb-2.5">
+									<h3 className="font-medium text-zinc-200 text-sm truncate">{proj.title}</h3>
+									<span className="text-[10px] text-zinc-400 font-mono bg-zinc-800/60 px-2 py-0.5 rounded border border-zinc-800">
 										{proj.year}
 									</span>
 								</div>
 
-								{/* Thumbnail preview */}
+								{/* Thumbnail Preview */}
 								{proj.thumbnail ? (
-									<div className="w-full h-36 bg-slate-900 rounded-lg overflow-hidden mb-3 relative border border-slate-800">
-										<img src={proj.thumbnail} alt={proj.title} className="w-full h-full object-cover" />
+									<div className="w-full h-32 bg-zinc-950 rounded-lg overflow-hidden mb-3 border border-zinc-800/60 relative">
+										<img src={proj.thumbnail} alt={proj.title} className="w-full h-full object-cover opacity-90" />
 									</div>
 								) : (
-									<div className="w-full h-36 bg-slate-900/50 rounded-lg mb-3 flex items-center justify-center text-slate-600 border border-slate-800/50">
-										<FontAwesomeIcon icon={faImage} className="text-2xl" />
+									<div className="w-full h-32 bg-zinc-950/80 rounded-lg mb-3 flex items-center justify-center text-zinc-700 border border-zinc-900">
+										<FontAwesomeIcon icon={faImage} className="text-xl" />
 									</div>
 								)}
 
-								<p className="text-xs text-slate-400 line-clamp-2 mb-3">
+								<p className="text-xs text-zinc-400 line-clamp-2 mb-3 leading-relaxed">
 									{Array.isArray(proj.desc) ? proj.desc[0] : proj.desc}
 								</p>
 
 								{/* Tech Tags */}
 								<div className="flex flex-wrap gap-1 mb-4">
 									{proj.tech?.slice(0, 4).map((t, i) => (
-										<span key={i} className="text-[10px] bg-slate-800 text-emerald-400 px-2 py-0.5 rounded">
+										<span key={i} className="text-[10px] bg-zinc-800/70 text-zinc-300 px-2 py-0.5 rounded border border-zinc-800">
 											{t}
 										</span>
 									))}
 									{proj.tech?.length > 4 && (
-										<span className="text-[10px] text-slate-500">+{proj.tech.length - 4}</span>
+										<span className="text-[10px] text-zinc-500 self-center">+{proj.tech.length - 4}</span>
 									)}
 								</div>
 							</div>
 
-							{/* Action Footer */}
-							<div className="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+							{/* Card Bottom Actions */}
+							<div className="pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs">
 								<button
 									onClick={() => handleToggleVisibility(idx)}
-									className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-colors ${
-										proj.show ? "bg-emerald-500/10 text-emerald-400" : "bg-slate-800 text-slate-400"
+									className={`flex items-center gap-1.5 px-2 py-1 rounded transition-colors text-[11px] font-medium ${
+										proj.show
+											? "text-zinc-300 bg-zinc-800/80 hover:bg-zinc-800"
+											: "text-zinc-500 bg-zinc-900 hover:bg-zinc-850"
 									}`}>
-									<FontAwesomeIcon icon={proj.show ? faEye : faEyeSlash} />
-									<span>{proj.show ? "Tampil" : "Sembunyi"}</span>
+									<FontAwesomeIcon icon={proj.show ? faEye : faEyeSlash} className="text-[10px]" />
+									<span>{proj.show ? "Publik" : "Draft"}</span>
 								</button>
 
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-1.5">
 									<button
 										onClick={() => handleEditOpen(proj, idx)}
-										className="p-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded transition-colors"
+										className="p-1.5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded transition-colors"
 										title="Edit Project">
-										<FontAwesomeIcon icon={faEdit} />
+										<FontAwesomeIcon icon={faEdit} className="text-xs" />
 									</button>
 									<button
 										onClick={() => handleDeleteProject(idx)}
-										className="p-1.5 bg-slate-800 hover:bg-rose-950 text-rose-400 rounded transition-colors"
+										className="p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-800 rounded transition-colors"
 										title="Hapus Project">
-										<FontAwesomeIcon icon={faTrash} />
+										<FontAwesomeIcon icon={faTrash} className="text-xs" />
 									</button>
 								</div>
 							</div>
@@ -362,41 +361,41 @@ export default function AdminPage() {
 				</div>
 			</div>
 
-			{/* EDIT / CREATE PROJECT MODAL */}
+			{/* EDIT / CREATE MODAL */}
 			<AnimatePresence>
 				{isEditing && activeProject && (
-					<div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+					<div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-4">
 						<motion.div
-							initial={{ opacity: 0, scale: 0.95 }}
+							initial={{ opacity: 0, scale: 0.98 }}
 							animate={{ opacity: 1, scale: 1 }}
-							exit={{ opacity: 0, scale: 0.95 }}
-							className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl p-6 md:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
-							<div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
-								<h3 className="text-xl font-bold text-white">
+							exit={{ opacity: 0, scale: 0.98 }}
+							className="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+							<div className="flex items-center justify-between pb-4 mb-5 border-b border-zinc-800">
+								<h3 className="text-sm font-semibold text-zinc-100">
 									{activeProject._index >= 0 ? `Edit Project: ${activeProject.title}` : "Tambah Project Baru"}
 								</h3>
 								<button
 									onClick={() => setIsEditing(false)}
-									className="text-slate-400 hover:text-white text-lg">
+									className="text-zinc-500 hover:text-zinc-300 text-sm">
 									✕
 								</button>
 							</div>
 
-							<form onSubmit={handleSaveForm} className="space-y-5">
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<form onSubmit={handleSaveForm} className="space-y-4">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 									<div>
-										<label className="block text-xs font-medium text-slate-300 mb-1">Judul Project *</label>
+										<label className="block text-[11px] font-medium text-zinc-400 mb-1">Judul Project *</label>
 										<input
 											type="text"
 											required
 											value={activeProject.title}
 											onChange={(e) => setActiveProject({ ...activeProject, title: e.target.value })}
-											className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none"
+											className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:border-zinc-600 outline-none transition-all"
 										/>
 									</div>
 
 									<div>
-										<label className="block text-xs font-medium text-slate-300 mb-1">Slug (URL-friendly) *</label>
+										<label className="block text-[11px] font-medium text-zinc-400 mb-1">Slug (URL) *</label>
 										<input
 											type="text"
 											required
@@ -407,39 +406,38 @@ export default function AdminPage() {
 													slug: e.target.value.toLowerCase().replace(/\s+/g, "-"),
 												})
 											}
-											className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white font-mono focus:border-emerald-500 outline-none"
+											className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono focus:border-zinc-600 outline-none transition-all"
 										/>
 									</div>
 								</div>
 
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 									<div>
-										<label className="block text-xs font-medium text-slate-300 mb-1">Tahun</label>
+										<label className="block text-[11px] font-medium text-zinc-400 mb-1">Tahun</label>
 										<input
 											type="text"
 											value={activeProject.year}
 											onChange={(e) => setActiveProject({ ...activeProject, year: e.target.value })}
-											className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none"
+											className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:border-zinc-600 outline-none transition-all"
 										/>
 									</div>
 
 									<div>
-										<label className="block text-xs font-medium text-slate-300 mb-1">Status Tampil</label>
+										<label className="block text-[11px] font-medium text-zinc-400 mb-1">Status Visibilitas</label>
 										<select
 											value={activeProject.show ? "true" : "false"}
 											onChange={(e) =>
 												setActiveProject({ ...activeProject, show: e.target.value === "true" })
 											}
-											className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none">
-											<option value="true">Tampilkan di Web</option>
-											<option value="false">Sembunyikan</option>
+											className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:border-zinc-600 outline-none transition-all">
+											<option value="true">Tampilkan di Situs</option>
+											<option value="false">Sembunyikan (Draft)</option>
 										</select>
 									</div>
 								</div>
 
-								{/* Descriptions */}
 								<div>
-									<label className="block text-xs font-medium text-slate-300 mb-1">Deskripsi Singkat</label>
+									<label className="block text-[11px] font-medium text-zinc-400 mb-1">Deskripsi Singkat</label>
 									<textarea
 										rows={2}
 										value={Array.isArray(activeProject.desc) ? activeProject.desc[0] || "" : activeProject.desc}
@@ -448,12 +446,12 @@ export default function AdminPage() {
 											descArray[0] = e.target.value;
 											setActiveProject({ ...activeProject, desc: descArray });
 										}}
-										className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none"
+										className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:border-zinc-600 outline-none transition-all"
 									/>
 								</div>
 
 								<div>
-									<label className="block text-xs font-medium text-slate-300 mb-1">Deskripsi Detail</label>
+									<label className="block text-[11px] font-medium text-zinc-400 mb-1">Deskripsi Detail</label>
 									<textarea
 										rows={3}
 										value={Array.isArray(activeProject.desc) ? activeProject.desc[1] || "" : ""}
@@ -462,13 +460,12 @@ export default function AdminPage() {
 											descArray[1] = e.target.value;
 											setActiveProject({ ...activeProject, desc: descArray });
 										}}
-										className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none"
+										className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:border-zinc-600 outline-none transition-all"
 									/>
 								</div>
 
-								{/* Tech Stack */}
 								<div>
-									<label className="block text-xs font-medium text-slate-300 mb-1">Tech Stack (pisahkan koma)</label>
+									<label className="block text-[11px] font-medium text-zinc-400 mb-1">Tech Stack (pisahkan koma)</label>
 									<input
 										type="text"
 										value={activeProject.tech?.join(", ") || ""}
@@ -479,24 +476,24 @@ export default function AdminPage() {
 											})
 										}
 										placeholder="Golang, Vue.js, MQTT, Docker"
-										className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:border-emerald-500 outline-none"
+										className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:border-zinc-600 outline-none transition-all"
 									/>
 								</div>
 
-								{/* Image Thumbnail Upload Section */}
-								<div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-									<label className="block text-xs font-semibold text-emerald-400">Thumbnail Project</label>
-									<div className="flex items-center gap-3">
+								{/* Upload Section */}
+								<div className="bg-zinc-950/60 border border-zinc-800 p-3.5 rounded-lg space-y-2.5">
+									<label className="block text-[11px] font-medium text-zinc-300">Thumbnail Image</label>
+									<div className="flex items-center gap-2">
 										<input
 											type="text"
 											value={activeProject.thumbnail || ""}
 											onChange={(e) => setActiveProject({ ...activeProject, thumbnail: e.target.value })}
 											placeholder="/image/projects/web/name/1.png"
-											className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none"
+											className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs font-mono text-zinc-300 outline-none"
 										/>
-										<label className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-xl border border-slate-700 cursor-pointer transition-all">
-											<FontAwesomeIcon icon={isUploading ? faSpinner : faUpload} className={isUploading ? "animate-spin" : ""} />
-											<span>Upload Foto</span>
+										<label className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 px-3 py-1.5 rounded-lg border border-zinc-700 cursor-pointer transition-all">
+											<FontAwesomeIcon icon={isUploading ? faSpinner : faUpload} className={`text-[11px] ${isUploading ? "animate-spin" : ""}`} />
+											<span>Upload</span>
 											<input
 												type="file"
 												accept="image/*"
@@ -506,24 +503,23 @@ export default function AdminPage() {
 										</label>
 									</div>
 									{activeProject.thumbnail && (
-										<div className="w-24 h-16 rounded overflow-hidden border border-slate-800 mt-2">
+										<div className="w-20 h-14 rounded overflow-hidden border border-zinc-800 mt-2">
 											<img src={activeProject.thumbnail} alt="Thumbnail preview" className="w-full h-full object-cover" />
 										</div>
 									)}
 								</div>
 
-								{/* Action Buttons */}
-								<div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
+								<div className="pt-3 border-t border-zinc-800 flex justify-end gap-2">
 									<button
 										type="button"
 										onClick={() => setIsEditing(false)}
-										className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm transition-all">
+										className="px-3.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs transition-all">
 										Batal
 									</button>
 									<button
 										type="submit"
-										className="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/20">
-										Simpan Project Ini
+										className="px-4 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 font-medium rounded-lg text-xs transition-all">
+										Simpan Project
 									</button>
 								</div>
 							</form>
