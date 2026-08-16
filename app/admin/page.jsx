@@ -34,6 +34,8 @@ import {
 	faLink,
 	faArrowLeft,
 	faStar,
+	faFileAlt,
+	faImages,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
@@ -49,11 +51,13 @@ export default function AdminPage() {
 	const [skills, setSkills] = useState(initialSkillsData.SkillCategories || []);
 	const [profile, setProfile] = useState(initialProfileData.Profile || {});
 
-	// Active Modal States
+	// Active Modal States & Sub-tab for Project Modal
 	const [activeProject, setActiveProject] = useState(null);
 	const [activeExperience, setActiveExperience] = useState(null);
 	const [activeAchievement, setActiveAchievement] = useState(null);
 	const [activeSkill, setActiveSkill] = useState(null);
+
+	const [projectModalSubTab, setProjectModalSubTab] = useState("info"); // 'info' | 'media'
 
 	const [isEditingProject, setIsEditingProject] = useState(false);
 	const [isEditingExp, setIsEditingExp] = useState(false);
@@ -251,7 +255,7 @@ export default function AdminPage() {
 			</header>
 
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
-				{/* Tab Navigation - Fully Responsive Wrapped Grid / Flex Layout */}
+				{/* Tab Navigation */}
 				<div className="w-full border-b border-zinc-900 pb-4 mb-6 flex flex-wrap items-center gap-2">
 					<button
 						onClick={() => setActiveTab("projects")}
@@ -329,7 +333,7 @@ export default function AdminPage() {
 								<p className="text-xs text-zinc-500 mt-0.5">Kelola karya project, galeri foto, deskripsi, tech stack, dan link.</p>
 							</div>
 							<div className="flex items-center gap-2">
-								<button onClick={() => { setActiveProject({ show: true, title: "", desc: ["", ""], year: new Date().getFullYear().toString(), preview: "", code: "", thumbnail: "", images: [], tech: [], slug: "", category: [1], _index: -1 }); setIsEditingProject(true); }} className="text-xs font-medium bg-zinc-100 text-zinc-950 px-3.5 py-2 rounded-lg flex items-center gap-1.5 shadow-sm">
+								<button onClick={() => { setActiveProject({ show: true, title: "", desc: ["", ""], year: new Date().getFullYear().toString(), preview: "", code: "", thumbnail: "", images: [], tech: [], slug: "", category: [1], _index: -1 }); setProjectModalSubTab("info"); setIsEditingProject(true); }} className="text-xs font-medium bg-zinc-100 text-zinc-950 px-3.5 py-2 rounded-lg flex items-center gap-1.5 shadow-sm">
 									<FontAwesomeIcon icon={faPlus} className="text-[11px]" /> Tambah Project
 								</button>
 								<button onClick={() => handleSaveProjects()} disabled={isSaving} className="text-xs font-medium bg-zinc-900 text-zinc-200 px-3.5 py-2 rounded-lg border border-zinc-800 flex items-center gap-1.5 disabled:opacity-50">
@@ -371,7 +375,7 @@ export default function AdminPage() {
 											<FontAwesomeIcon icon={proj.show ? faEye : faEyeSlash} className="text-[10px]" /><span>{proj.show ? "Publik" : "Draft"}</span>
 										</button>
 										<div className="flex items-center gap-1.5">
-											<button onClick={() => { setActiveProject({ ...proj, _index: idx }); setIsEditingProject(true); }} className="p-1.5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded flex items-center gap-1 text-xs">
+											<button onClick={() => { setActiveProject({ ...proj, _index: idx }); setProjectModalSubTab("info"); setIsEditingProject(true); }} className="p-1.5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded flex items-center gap-1 text-xs">
 												<FontAwesomeIcon icon={faEdit} className="text-xs" /> <span>Edit</span>
 											</button>
 											<button onClick={() => handleDeleteProject(idx)} className="p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-800 rounded"><FontAwesomeIcon icon={faTrash} className="text-xs" /></button>
@@ -586,149 +590,200 @@ export default function AdminPage() {
 				)}
 			</div>
 
-			{/* EDIT PROJECT MODAL WITH MOBILE-OPTIMIZED MULTI-IMAGE GALLERY MANAGER */}
+			{/* EDIT PROJECT MODAL WITH SUB-TABS & STICKY HEADER/FOOTER */}
 			<AnimatePresence>
 				{isEditingProject && activeProject && (
 					<div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-3xl p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-							<div className="flex items-center justify-between pb-3.5 mb-4 border-b border-zinc-800">
-								<h3 className="text-xs sm:text-sm font-semibold text-zinc-100 truncate pr-2">{activeProject._index >= 0 ? `Edit Project: ${activeProject.title}` : "Tambah Project Baru"}</h3>
-								<button onClick={() => setIsEditingProject(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1">✕</button>
+						<motion.div
+							initial={{ opacity: 0, scale: 0.97 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.97 }}
+							className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+							
+							{/* STICKY MODAL HEADER WITH SUB-TABS */}
+							<div className="bg-zinc-900 border-b border-zinc-800 p-4 shrink-0">
+								<div className="flex items-center justify-between mb-3">
+									<h3 className="text-sm font-semibold text-zinc-100 truncate pr-2">
+										{activeProject._index >= 0 ? `Edit Project: ${activeProject.title}` : "Tambah Project Baru"}
+									</h3>
+									<button onClick={() => setIsEditingProject(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1 rounded-lg hover:bg-zinc-800 transition-colors">✕</button>
+								</div>
+
+								{/* Modal Sub-Tabs */}
+								<div className="flex items-center gap-2 bg-zinc-950 p-1 rounded-xl border border-zinc-800/80">
+									<button
+										type="button"
+										onClick={() => setProjectModalSubTab("info")}
+										className={`flex-1 flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-medium transition-all ${
+											projectModalSubTab === "info"
+												? "bg-zinc-800 text-zinc-100 shadow-sm border border-zinc-700/60"
+												: "text-zinc-400 hover:text-zinc-200"
+										}`}>
+										<FontAwesomeIcon icon={faFileAlt} className="text-xs" />
+										<span>Informasi & Deskripsi</span>
+									</button>
+
+									<button
+										type="button"
+										onClick={() => setProjectModalSubTab("media")}
+										className={`flex-1 flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg text-xs font-medium transition-all ${
+											projectModalSubTab === "media"
+												? "bg-zinc-800 text-zinc-100 shadow-sm border border-zinc-700/60"
+												: "text-zinc-400 hover:text-zinc-200"
+										}`}>
+										<FontAwesomeIcon icon={faImages} className="text-xs" />
+										<span>Foto & Galeri ({activeProject.images?.length || 0})</span>
+									</button>
+								</div>
 							</div>
-							<form onSubmit={handleSaveProjectForm} className="space-y-4 sm:space-y-5">
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-									<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Judul Project *</label><input type="text" required value={activeProject.title} onChange={(e) => setActiveProject({ ...activeProject, title: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
-									<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Slug (URL) *</label><input type="text" required value={activeProject.slug} onChange={(e) => setActiveProject({ ...activeProject, slug: e.target.value.toLowerCase().replace(/\s+/g, "-") })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono outline-none" /></div>
-								</div>
 
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-									<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Tahun</label><input type="text" value={activeProject.year} onChange={(e) => setActiveProject({ ...activeProject, year: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
-									<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Status Visibilitas</label><select value={activeProject.show ? "true" : "false"} onChange={(e) => setActiveProject({ ...activeProject, show: e.target.value === "true" })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none"><option value="true">Tampilkan di Situs</option><option value="false">Sembunyikan (Draft)</option></select></div>
-								</div>
-
-								<div>
-									<label className="block text-[11px] font-medium text-zinc-400 mb-1">Kategori Tampilan Portofolio (Filter Halaman Projects)</label>
-									<div className="flex flex-wrap gap-4 pt-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2">
-										{[
-											{ id: 1, label: "Web Application (1)" },
-											{ id: 2, label: "Backend & IoT (2)" },
-											{ id: 3, label: "Robotics (3)" },
-										].map((cat) => {
-											const isChecked = activeProject.category?.includes(cat.id);
-											return (
-												<label key={cat.id} className="flex items-center gap-1.5 text-xs text-zinc-300 cursor-pointer">
-													<input
-														type="checkbox"
-														checked={isChecked}
-														onChange={(e) => {
-															const current = activeProject.category || [];
-															const next = e.target.checked
-																? [...current, cat.id]
-																: current.filter((id) => id !== cat.id);
-															setActiveProject({ ...activeProject, category: next });
-														}}
-														className="accent-zinc-100 rounded"
-													/>
-													<span>{cat.label}</span>
-												</label>
-											);
-										})}
-									</div>
-								</div>
-
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-									<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Link Preview Live (Opsional)</label><input type="text" value={activeProject.preview || ""} onChange={(e) => setActiveProject({ ...activeProject, preview: e.target.value })} placeholder="https://..." className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono outline-none" /></div>
-									<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Link Code Repository (Opsional)</label><input type="text" value={activeProject.code || ""} onChange={(e) => setActiveProject({ ...activeProject, code: e.target.value })} placeholder="https://github.com/..." className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono outline-none" /></div>
-								</div>
-
-								<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Deskripsi Paragraf 1 (Ringkasan Singkat)</label><textarea rows={2} value={Array.isArray(activeProject.desc) ? activeProject.desc[0] || "" : activeProject.desc} onChange={(e) => { const descArray = Array.isArray(activeProject.desc) ? [...activeProject.desc] : [activeProject.desc, ""]; descArray[0] = e.target.value; setActiveProject({ ...activeProject, desc: descArray }); }} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
-
-								<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Deskripsi Paragraf 2 (Detail Teknis & Peran)</label><textarea rows={3} value={Array.isArray(activeProject.desc) ? activeProject.desc[1] || "" : ""} onChange={(e) => { const descArray = Array.isArray(activeProject.desc) ? [...activeProject.desc] : [activeProject.desc, ""]; descArray[1] = e.target.value; setActiveProject({ ...activeProject, desc: descArray }); }} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
-
-								<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Tech Stack (pisahkan koma)</label><input type="text" value={activeProject.tech?.join(", ") || ""} onChange={(e) => setActiveProject({ ...activeProject, tech: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
-
-								{/* THUMBNAIL MANAGER */}
-								<div className="bg-zinc-950/60 border border-zinc-800 p-3.5 sm:p-4 rounded-xl space-y-3">
-									<label className="block text-[11px] font-semibold text-zinc-300 uppercase tracking-wider">Foto Cover Utama (Thumbnail)</label>
-									<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-										<div className="flex items-center gap-2.5 flex-1 min-w-0">
-											{activeProject.thumbnail ? (
-												<img src={activeProject.thumbnail} alt="Thumbnail Preview" className="w-14 h-11 object-cover rounded-lg border border-zinc-800 shrink-0" />
-											) : (
-												<div className="w-14 h-11 bg-zinc-900 rounded-lg border border-zinc-800 flex items-center justify-center text-zinc-600 shrink-0"><FontAwesomeIcon icon={faImage} /></div>
-											)}
-											<input type="text" value={activeProject.thumbnail || ""} onChange={(e) => setActiveProject({ ...activeProject, thumbnail: e.target.value })} className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-zinc-300 outline-none min-w-0" />
+							{/* SCROLLABLE MODAL FORM BODY */}
+							<form onSubmit={handleSaveProjectForm} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+								{projectModalSubTab === "info" && (
+									<motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+											<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Judul Project *</label><input type="text" required value={activeProject.title} onChange={(e) => setActiveProject({ ...activeProject, title: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none focus:border-zinc-700 transition-colors" /></div>
+											<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Slug (URL) *</label><input type="text" required value={activeProject.slug} onChange={(e) => setActiveProject({ ...activeProject, slug: e.target.value.toLowerCase().replace(/\s+/g, "-") })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono outline-none focus:border-zinc-700 transition-colors" /></div>
 										</div>
 
-										<label className="flex items-center justify-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 px-3.5 py-2 rounded-lg border border-zinc-700 cursor-pointer shrink-0">
-											<FontAwesomeIcon icon={isUploading ? faSpinner : faUpload} className={`text-[11px] ${isUploading ? "animate-spin" : ""}`} />
-											<span>Upload Cover</span>
-											<input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, "thumbnail")} className="hidden" />
-										</label>
-									</div>
-								</div>
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+											<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Tahun</label><input type="text" value={activeProject.year} onChange={(e) => setActiveProject({ ...activeProject, year: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
+											<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Status Visibilitas</label><select value={activeProject.show ? "true" : "false"} onChange={(e) => setActiveProject({ ...activeProject, show: e.target.value === "true" })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none"><option value="true">Tampilkan di Situs (Publik)</option><option value="false">Sembunyikan (Draft)</option></select></div>
+										</div>
 
-								{/* MULTI-IMAGE GALLERY MANAGER */}
-								<div className="bg-zinc-950/60 border border-zinc-800 p-3.5 sm:p-4 rounded-xl space-y-3">
-									<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-										<label className="block text-[11px] font-semibold text-zinc-300 uppercase tracking-wider">Daftar Foto Galeri Project ({activeProject.images?.length || 0})</label>
-										<label className="flex items-center justify-center gap-1.5 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-medium px-3.5 py-2 rounded-lg cursor-pointer shadow-sm w-full sm:w-auto">
-											<FontAwesomeIcon icon={isUploading ? faSpinner : faPlus} className={`text-[10px] ${isUploading ? "animate-spin" : ""}`} />
-											<span>+ Tambah Foto Galeri</span>
-											<input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, "gallery")} className="hidden" />
-										</label>
-									</div>
-
-									<div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-										{activeProject.images?.map((imgUrl, imgIdx) => (
-											<div key={imgIdx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-zinc-900 p-2.5 rounded-lg border border-zinc-800">
-												<div className="flex items-center gap-2.5 flex-1 min-w-0">
-													<img src={imgUrl} alt={`Gallery ${imgIdx + 1}`} className="w-12 h-10 object-cover rounded border border-zinc-800 shrink-0" />
-													<input
-														type="text"
-														value={imgUrl}
-														onChange={(e) => {
-															const newImgs = [...activeProject.images];
-															newImgs[imgIdx] = e.target.value;
-															setActiveProject({ ...activeProject, images: newImgs });
-														}}
-														className="flex-1 bg-zinc-950 border border-zinc-800 rounded px-2.5 py-1.5 text-xs font-mono text-zinc-300 outline-none min-w-0"
-													/>
-												</div>
-
-												<div className="flex items-center justify-end gap-1.5 shrink-0 pt-1 sm:pt-0">
-													<button
-														type="button"
-														title="Set sebagai Thumbnail Utama"
-														onClick={() => setActiveProject({ ...activeProject, thumbnail: imgUrl })}
-														className={`px-2.5 py-1 rounded text-xs transition-colors flex items-center gap-1 ${activeProject.thumbnail === imgUrl ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-medium" : "text-zinc-400 bg-zinc-800/80 hover:text-zinc-200"}`}>
-														<FontAwesomeIcon icon={faStar} className="text-[10px]" />
-														<span className="text-[10px]">{activeProject.thumbnail === imgUrl ? "Cover Utama" : "Set Cover"}</span>
-													</button>
-
-													<button
-														type="button"
-														title="Hapus foto ini"
-														onClick={() => {
-															const newImgs = activeProject.images.filter((_, i) => i !== imgIdx);
-															setActiveProject({ ...activeProject, images: newImgs });
-														}}
-														className="p-1.5 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded text-xs transition-colors">
-														<FontAwesomeIcon icon={faTrash} />
-													</button>
-												</div>
+										<div>
+											<label className="block text-[11px] font-medium text-zinc-400 mb-1">Kategori Tampilan Portofolio (Filter Halaman Projects)</label>
+											<div className="flex flex-wrap gap-4 pt-1 bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5">
+												{[
+													{ id: 1, label: "Web Application (1)" },
+													{ id: 2, label: "Backend & IoT (2)" },
+													{ id: 3, label: "Robotics (3)" },
+												].map((cat) => {
+													const isChecked = activeProject.category?.includes(cat.id);
+													return (
+														<label key={cat.id} className="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer">
+															<input
+																type="checkbox"
+																checked={isChecked}
+																onChange={(e) => {
+																	const current = activeProject.category || [];
+																	const next = e.target.checked
+																		? [...current, cat.id]
+																		: current.filter((id) => id !== cat.id);
+																	setActiveProject({ ...activeProject, category: next });
+																}}
+																className="accent-zinc-100 rounded"
+															/>
+															<span>{cat.label}</span>
+														</label>
+													);
+												})}
 											</div>
-										))}
+										</div>
 
-										{(!activeProject.images || activeProject.images.length === 0) && (
-											<p className="text-xs text-zinc-500 italic text-center py-2">Belum ada foto galeri tambahan.</p>
-										)}
-									</div>
-								</div>
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+											<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Link Preview Live (Opsional)</label><input type="text" value={activeProject.preview || ""} onChange={(e) => setActiveProject({ ...activeProject, preview: e.target.value })} placeholder="https://..." className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono outline-none" /></div>
+											<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Link Code Repository (Opsional)</label><input type="text" value={activeProject.code || ""} onChange={(e) => setActiveProject({ ...activeProject, code: e.target.value })} placeholder="https://github.com/..." className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 font-mono outline-none" /></div>
+										</div>
 
-								<div className="pt-3 border-t border-zinc-800 flex justify-end gap-2">
-									<button type="button" onClick={() => setIsEditingProject(false)} className="px-3.5 py-1.5 bg-zinc-800 text-zinc-300 rounded-lg text-xs">Batal</button>
-									<button type="submit" className="px-4 py-1.5 bg-zinc-100 text-zinc-950 font-medium rounded-lg text-xs">Simpan Project</button>
+										<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Deskripsi Paragraf 1 (Ringkasan Singkat)</label><textarea rows={2} value={Array.isArray(activeProject.desc) ? activeProject.desc[0] || "" : activeProject.desc} onChange={(e) => { const descArray = Array.isArray(activeProject.desc) ? [...activeProject.desc] : [activeProject.desc, ""]; descArray[0] = e.target.value; setActiveProject({ ...activeProject, desc: descArray }); }} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none leading-relaxed" /></div>
+
+										<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Deskripsi Paragraf 2 (Detail Teknis & Peran)</label><textarea rows={3} value={Array.isArray(activeProject.desc) ? activeProject.desc[1] || "" : ""} onChange={(e) => { const descArray = Array.isArray(activeProject.desc) ? [...activeProject.desc] : [activeProject.desc, ""]; descArray[1] = e.target.value; setActiveProject({ ...activeProject, desc: descArray }); }} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none leading-relaxed" /></div>
+
+										<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Tech Stack (pisahkan koma)</label><input type="text" value={activeProject.tech?.join(", ") || ""} onChange={(e) => setActiveProject({ ...activeProject, tech: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
+									</motion.div>
+								)}
+
+								{projectModalSubTab === "media" && (
+									<motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-5">
+										{/* THUMBNAIL COVER MANAGER */}
+										<div className="bg-zinc-950 border border-zinc-800/80 p-4 rounded-xl space-y-3">
+											<label className="block text-[11px] font-semibold text-zinc-300 uppercase tracking-wider">Foto Cover Utama (Thumbnail)</label>
+											<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+												<div className="flex items-center gap-3 flex-1 min-w-0">
+													{activeProject.thumbnail ? (
+														<img src={activeProject.thumbnail} alt="Thumbnail Preview" className="w-16 h-12 object-cover rounded-lg border border-zinc-800 shrink-0" />
+													) : (
+														<div className="w-16 h-12 bg-zinc-900 rounded-lg border border-zinc-800 flex items-center justify-center text-zinc-600 shrink-0"><FontAwesomeIcon icon={faImage} /></div>
+													)}
+													<input type="text" value={activeProject.thumbnail || ""} onChange={(e) => setActiveProject({ ...activeProject, thumbnail: e.target.value })} className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-zinc-300 outline-none min-w-0" />
+												</div>
+
+												<label className="flex items-center justify-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 px-3.5 py-2 rounded-lg border border-zinc-700 cursor-pointer shrink-0">
+													<FontAwesomeIcon icon={isUploading ? faSpinner : faUpload} className={`text-[11px] ${isUploading ? "animate-spin" : ""}`} />
+													<span>Upload Cover</span>
+													<input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, "thumbnail")} className="hidden" />
+												</label>
+											</div>
+										</div>
+
+										{/* MULTI-IMAGE GALLERY MANAGER */}
+										<div className="bg-zinc-950 border border-zinc-800/80 p-4 rounded-xl space-y-3">
+											<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+												<label className="block text-[11px] font-semibold text-zinc-300 uppercase tracking-wider">
+													Daftar Foto Galeri Project ({activeProject.images?.length || 0})
+												</label>
+												<label className="flex items-center justify-center gap-1.5 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-medium px-3.5 py-1.5 rounded-lg cursor-pointer shadow-sm w-full sm:w-auto">
+													<FontAwesomeIcon icon={isUploading ? faSpinner : faPlus} className={`text-[10px] ${isUploading ? "animate-spin" : ""}`} />
+													<span>+ Tambah Foto Galeri</span>
+													<input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, "gallery")} className="hidden" />
+												</label>
+											</div>
+
+											<div className="space-y-2.5">
+												{activeProject.images?.map((imgUrl, imgIdx) => (
+													<div key={imgIdx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 bg-zinc-900/90 p-2.5 rounded-lg border border-zinc-800">
+														<div className="flex items-center gap-2.5 flex-1 min-w-0">
+															<span className="text-[10px] font-mono text-zinc-500 w-4 text-center">{imgIdx + 1}.</span>
+															<img src={imgUrl} alt={`Gallery ${imgIdx + 1}`} className="w-12 h-10 object-cover rounded border border-zinc-800 shrink-0" />
+															<input
+																type="text"
+																value={imgUrl}
+																onChange={(e) => {
+																	const newImgs = [...activeProject.images];
+																	newImgs[imgIdx] = e.target.value;
+																	setActiveProject({ ...activeProject, images: newImgs });
+																}}
+																className="flex-1 bg-zinc-950 border border-zinc-800 rounded px-2.5 py-1.5 text-xs font-mono text-zinc-300 outline-none min-w-0"
+															/>
+														</div>
+
+														<div className="flex items-center justify-end gap-1.5 shrink-0">
+															<button
+																type="button"
+																title="Set sebagai Thumbnail Utama"
+																onClick={() => setActiveProject({ ...activeProject, thumbnail: imgUrl })}
+																className={`px-2.5 py-1.5 rounded-lg text-xs transition-colors flex items-center gap-1.5 ${activeProject.thumbnail === imgUrl ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-medium" : "text-zinc-400 bg-zinc-800/80 hover:text-zinc-200"}`}>
+																<FontAwesomeIcon icon={faStar} className="text-[10px]" />
+																<span className="text-[10px]">{activeProject.thumbnail === imgUrl ? "Cover Utama" : "Set Cover"}</span>
+															</button>
+
+															<button
+																type="button"
+																title="Hapus foto ini"
+																onClick={() => {
+																	const newImgs = activeProject.images.filter((_, i) => i !== imgIdx);
+																	setActiveProject({ ...activeProject, images: newImgs });
+																}}
+																className="p-1.5 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded-lg text-xs transition-colors">
+																<FontAwesomeIcon icon={faTrash} />
+															</button>
+														</div>
+													</div>
+												))}
+
+												{(!activeProject.images || activeProject.images.length === 0) && (
+													<p className="text-xs text-zinc-500 italic text-center py-4">Belum ada foto galeri tambahan.</p>
+												)}
+											</div>
+										</div>
+									</motion.div>
+								)}
+
+								{/* STICKY FOOTER ACTION BUTTONS */}
+								<div className="pt-3 border-t border-zinc-800 flex items-center justify-end gap-2 shrink-0">
+									<button type="button" onClick={() => setIsEditingProject(false)} className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-medium transition-colors">Batal</button>
+									<button type="submit" className="px-5 py-2 bg-zinc-100 hover:bg-white text-zinc-950 font-semibold rounded-xl text-xs shadow-sm transition-all">Simpan Project</button>
 								</div>
 							</form>
 						</motion.div>
@@ -740,10 +795,10 @@ export default function AdminPage() {
 			<AnimatePresence>
 				{isEditingExp && activeExperience && (
 					<div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-2xl p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
 							<div className="flex items-center justify-between pb-3.5 mb-4 border-b border-zinc-800">
 								<h3 className="text-xs sm:text-sm font-semibold text-zinc-100 truncate pr-2">{activeExperience._index >= 0 ? `Edit Pengalaman: ${activeExperience.company}` : "Tambah Pengalaman Kerja Baru"}</h3>
-								<button onClick={() => setIsEditingExp(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1">✕</button>
+								<button onClick={() => setIsEditingExp(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1 rounded-lg hover:bg-zinc-800">✕</button>
 							</div>
 							<form onSubmit={handleSaveExpForm} className="space-y-4">
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -769,10 +824,10 @@ export default function AdminPage() {
 			<AnimatePresence>
 				{isEditingAch && activeAchievement && (
 					<div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-lg p-4 sm:p-6 shadow-2xl">
+						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-4 sm:p-6 shadow-2xl">
 							<div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800">
 								<h3 className="text-xs sm:text-sm font-semibold text-zinc-100 truncate pr-2">{activeAchievement._index >= 0 ? `Edit Prestasi: ${activeAchievement.title}` : "Tambah Prestasi Baru"}</h3>
-								<button onClick={() => setIsEditingAch(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1">✕</button>
+								<button onClick={() => setIsEditingAch(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1 rounded-lg hover:bg-zinc-800">✕</button>
 							</div>
 							<form onSubmit={handleSaveAchForm} className="space-y-3.5">
 								<div><label className="block text-[11px] font-medium text-zinc-400 mb-1">Judul Prestasi / Sertifikasi *</label><input type="text" required value={activeAchievement.title} onChange={(e) => setActiveAchievement({ ...activeAchievement, title: e.target.value })} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-200 outline-none" /></div>
@@ -792,10 +847,10 @@ export default function AdminPage() {
 			<AnimatePresence>
 				{isEditingSkill && activeSkill && (
 					<div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-lg p-4 sm:p-6 shadow-2xl">
+						<motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-4 sm:p-6 shadow-2xl">
 							<div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800">
 								<h3 className="text-xs sm:text-sm font-semibold text-zinc-100 truncate pr-2">{activeSkill._index >= 0 ? `Edit Skill: ${activeSkill.title}` : "Tambah Kategori Skill Baru"}</h3>
-								<button onClick={() => setIsEditingSkill(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1">✕</button>
+								<button onClick={() => setIsEditingSkill(false)} className="text-zinc-500 hover:text-zinc-300 text-sm p-1 rounded-lg hover:bg-zinc-800">✕</button>
 							</div>
 							<form onSubmit={handleSaveSkillForm} className="space-y-3.5">
 								<div className="grid grid-cols-2 gap-3">
