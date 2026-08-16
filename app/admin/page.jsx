@@ -251,14 +251,14 @@ export default function AdminPage() {
 			</header>
 
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
-				{/* Tab Navigation - Pure Flex-Nowrap Horizontal Scroll Bar */}
-				<div className="w-full overflow-x-auto border-b border-zinc-900 pb-3 mb-6 flex flex-nowrap items-center gap-2 scrollbar-none">
+				{/* Tab Navigation - Fully Responsive Wrapped Grid / Flex Layout */}
+				<div className="w-full border-b border-zinc-900 pb-4 mb-6 flex flex-wrap items-center gap-2">
 					<button
 						onClick={() => setActiveTab("projects")}
-						className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium transition-all ${
+						className={`flex-1 sm:flex-initial whitespace-nowrap flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
 							activeTab === "projects"
-								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80"
-								: "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80 shadow-sm"
+								: "text-zinc-400 bg-zinc-900/40 hover:text-zinc-200 hover:bg-zinc-900/80"
 						}`}>
 						<FontAwesomeIcon icon={faFolderOpen} className="text-xs shrink-0" />
 						<span>Projects ({projects.length})</span>
@@ -266,10 +266,10 @@ export default function AdminPage() {
 
 					<button
 						onClick={() => setActiveTab("experiences")}
-						className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium transition-all ${
+						className={`flex-1 sm:flex-initial whitespace-nowrap flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
 							activeTab === "experiences"
-								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80"
-								: "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80 shadow-sm"
+								: "text-zinc-400 bg-zinc-900/40 hover:text-zinc-200 hover:bg-zinc-900/80"
 						}`}>
 						<FontAwesomeIcon icon={faBriefcase} className="text-xs shrink-0" />
 						<span>Pengalaman ({experiences.length})</span>
@@ -277,10 +277,10 @@ export default function AdminPage() {
 
 					<button
 						onClick={() => setActiveTab("education")}
-						className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium transition-all ${
+						className={`flex-1 sm:flex-initial whitespace-nowrap flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
 							activeTab === "education"
-								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80"
-								: "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80 shadow-sm"
+								: "text-zinc-400 bg-zinc-900/40 hover:text-zinc-200 hover:bg-zinc-900/80"
 						}`}>
 						<FontAwesomeIcon icon={faGraduationCap} className="text-xs shrink-0" />
 						<span>Pendidikan ({achievements.length})</span>
@@ -288,10 +288,10 @@ export default function AdminPage() {
 
 					<button
 						onClick={() => setActiveTab("skills")}
-						className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium transition-all ${
+						className={`flex-1 sm:flex-initial whitespace-nowrap flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
 							activeTab === "skills"
-								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80"
-								: "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80 shadow-sm"
+								: "text-zinc-400 bg-zinc-900/40 hover:text-zinc-200 hover:bg-zinc-900/80"
 						}`}>
 						<FontAwesomeIcon icon={faCode} className="text-xs shrink-0" />
 						<span>Skills ({skills.length})</span>
@@ -299,10 +299,10 @@ export default function AdminPage() {
 
 					<button
 						onClick={() => setActiveTab("profile")}
-						className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium transition-all ${
+						className={`flex-1 sm:flex-initial whitespace-nowrap flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
 							activeTab === "profile"
-								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80"
-								: "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+								? "bg-zinc-800 text-zinc-100 border border-zinc-700/80 shadow-sm"
+								: "text-zinc-400 bg-zinc-900/40 hover:text-zinc-200 hover:bg-zinc-900/80"
 						}`}>
 						<FontAwesomeIcon icon={faUser} className="text-xs shrink-0" />
 						<span>Bio & Profile</span>
