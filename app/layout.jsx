@@ -48,15 +48,19 @@ export const metadata = {
 	}
 };
 
+import { AuthProvider } from "@/context/AuthContext";
+
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<body>
-				<ClientTopProgressBar />
-				<Navbar />
-				{children}
-				<Chat />
-				<Analytics />
+				<AuthProvider>
+					<ClientTopProgressBar />
+					<Navbar />
+					{children}
+					<Chat />
+					<Analytics />
+				</AuthProvider>
 			</body>
 		</html>
 	);
